@@ -40,7 +40,17 @@ jobs:
     - name: Export project (Windows)
       run: |
         mkdir -p builds/windows
-        godot --headless --export-release "Windows Desktop" builds/windows/game.exe || echo "Export preset not configured yet"
+        godot --headless --export-release "Windows Desktop" builds/windows/game.exe
+      shell: bash
+    
+    - name: Verify build output
+      run: |
+        if [ ! -f builds/windows/game.exe ]; then
+          echo "Error: Build failed - game.exe not found"
+          exit 1
+        fi
+        echo "Build successful - game.exe created"
+        ls -la builds/windows/
       shell: bash
 
     - name: Upload artifacts (Windows)
