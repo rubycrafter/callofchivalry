@@ -22,18 +22,18 @@ extends OptionControl
 
 var custom_option_values : Array
 
-func _on_option_values_changed():
+func _on_option_values_changed() -> void:
 	if option_values.is_empty(): return
 	custom_option_values = option_values.duplicate()
 	var first_value = custom_option_values.front()
 	property_type = typeof(first_value)
 	_set_titles_from_values()
 
-func _on_setting_changed(value):
-	if value < option_values.size():
-		super._on_setting_changed(option_values[value])
+func _on_setting_changed(value : Variant) -> void:
+	if value < custom_option_values.size() and value >= 0:
+		super._on_setting_changed(custom_option_values[value])
 
-func _set_titles_from_values():
+func _set_titles_from_values() -> void:
 	if lock_titles: return
 	var mapped_titles : Array[String] = []
 	for option_value in custom_option_values:
@@ -51,10 +51,10 @@ func _match_value_to_other(value : Variant, other : Variant) -> Variant:
 		return int(round(value))
 	return value
 
-func set_value(value : Variant):
+func _set_value(value : Variant) -> Variant:
 	if option_values.is_empty(): return
 	if value == null:
-		return super.set_value(-1)
+		return super._set_value(-1)
 	custom_option_values = option_values.duplicate()
 	value = _match_value_to_other(value, custom_option_values.front())
 	if value not in custom_option_values and typeof(value) == property_type:
@@ -64,17 +64,17 @@ func set_value(value : Variant):
 	if value not in option_values:
 		disable_option(custom_option_values.find(value))
 	value = custom_option_values.find(value)
-	super.set_value(value)
+	return super._set_value(value)
 
-func _set_option_list(option_titles_list : Array):
+func _set_option_list(option_titles_list : Array) -> void:
 	%OptionButton.clear()
 	for option_title in option_titles_list:
 		%OptionButton.add_item(option_title)
 
-func disable_option(option_index : int, disabled : bool = true):
+func disable_option(option_index : int, disabled : bool = true) -> void:
 	%OptionButton.set_item_disabled(option_index, disabled)
 
-func _ready():
+func _ready() -> void:
 	lock_titles = lock_titles
 	option_titles = option_titles
 	option_values = option_values

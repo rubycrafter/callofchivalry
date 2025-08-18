@@ -62,14 +62,15 @@ const OptionSectionNames : Dictionary = {
 var default_value
 var _connected_nodes : Array
 
-func _on_setting_changed(value):
-	Config.set_config(section, key, value)
+func _on_setting_changed(value) -> void:
+	if Engine.is_editor_hint(): return
+	PlayerConfig.set_config(section, key, value)
 	setting_changed.emit(value)
 
 func _get_setting(default : Variant = null) -> Variant:
-	return Config.get_config(section, key, default)
+	return PlayerConfig.get_config(section, key, default)
 
-func _connect_option_inputs(node):
+func _connect_option_inputs(node) -> void:
 	if node in _connected_nodes: return
 	if node is Button:
 		if node is OptionButton:
@@ -86,7 +87,7 @@ func _connect_option_inputs(node):
 		node.text_changed.connect(_on_setting_changed)
 		_connected_nodes.append(node)
 
-func set_value(value : Variant):
+func _set_value(value : Variant) -> Variant:
 	if value == null:
 		return
 	for node in get_children():
@@ -101,8 +102,13 @@ func set_value(value : Variant):
 			node.value = value as float
 		if node is LineEdit or node is TextEdit:
 			node.text = "%s" % value
+	return value
 
-func set_editable(value : bool = true):
+func set_value(value : Variant) -> void:
+	value = _set_value(value)
+	_on_setting_changed(value)
+
+func set_editable(value : bool = true) -> void:
 	editable = value
 	for node in get_children():
 		if node is Button:
@@ -110,13 +116,13 @@ func set_editable(value : bool = true):
 		if node is Slider or node is SpinBox or node is LineEdit or node is TextEdit:
 			node.editable = editable
 
-func _ready():
+func _ready() -> void:
 	lock_config_names = lock_config_names
 	option_section = option_section
 	option_name = option_name
 	property_type = property_type
 	default_value = default_value
-	set_value(_get_setting(default_value))
+	_set_value(_get_setting(default_value))
 	for child in get_children():
 		_connect_option_inputs(child)
 	child_entered_tree.connect(_connect_option_inputs)
@@ -127,7 +133,7 @@ func _set(property : StringName, value : Variant) -> bool:
 		return true
 	return false
 
-func _get_property_list():
+func _get_property_list() -> Array[Dictionary]:
 	return [
 		{ "name": "value", "type": property_type, "usage": PROPERTY_USAGE_NONE},
 		{ "name": "default_value", "type": property_type}
