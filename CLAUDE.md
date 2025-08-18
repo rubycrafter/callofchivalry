@@ -1,7 +1,7 @@
 # Claude Code Working Preferences
 
 ## Project Overview
-- **Type**: Godot 4.3 game project (Call of Chivalry)
+- **Type**: Godot 4.4 game project (Call of Chivalry)
 - **Template**: Based on Maaack's Game Template
 - **CI/CD**: GitHub Actions for Windows builds
 
@@ -21,7 +21,7 @@
 
 ### CI Pipeline
 - Workflow: `.github/workflows/ci.yml`
-- Godot version: 4.3.0 (use full semantic version)
+- Godot version: 4.4.0 (use full semantic version)
 - Build output: `builds/windows/call-of-chivalry.exe`
 - Artifacts uploaded as `windows-build`
 
@@ -32,7 +32,7 @@
    - Look for UID resolution warnings in build logs
 
 2. **Pipeline failures**
-   - Godot setup needs full version (4.3.0, not 4.3)
+   - Godot setup needs full version (4.4.0, not 4.4)
    - Export presets must exist before build
    - Verify build output before uploading artifacts
 
