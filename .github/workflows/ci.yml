@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build Godot Project
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        lfs: true
+
+    - name: Setup Godot
+      uses: chickensoft-games/setup-godot@v2
+      with:
+        version: 4.4.0
+        use-dotnet: false
+        include-templates: true
+
+    - name: Verify Godot installation
+      run: godot --version
+
+    - name: Import Godot project
+      run: |
+        godot --headless --import
+      timeout-minutes: 5
+
+    - name: Check project validity
+      run: |
+        godot --headless --quit-after 1000
+      timeout-minutes: 2
+
+    - name: Export project (Windows)
+      run: |
+        mkdir -p builds/windows
+        godot --headless --export-release "Windows Desktop" builds/windows/call-of-chivalry.exe
+      shell: bash
+    
+    - name: Verify build output
+      run: |
+        if [ ! -f builds/windows/call-of-chivalry.exe ]; then
+          echo "Error: Build failed - call-of-chivalry.exe not found"
+          exit 1
+        fi
+        echo "Build successful - call-of-chivalry.exe created"
+        ls -la builds/windows/
+      shell: bash
+
+    - name: Upload artifacts (Windows)
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows-build
+        path: builds/windows/
+        if-no-files-found: ignore

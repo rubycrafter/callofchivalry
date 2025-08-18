@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Call of Chivalry"
-run/main_scene="uid://4eccvm7j8yd1"
+run/main_scene="res://game/scenes/menus/main_menu/main_menu_with_animations.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
