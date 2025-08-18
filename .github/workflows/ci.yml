@@ -1,0 +1,85 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build Godot Project
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        godot_version: ['4.3']
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        lfs: true
+
+    - name: Setup Godot
+      uses: chickensoft-games/setup-godot@v2
+      with:
+        version: ${{ matrix.godot_version }}
+        use-dotnet: false
+        include-templates: true
+
+    - name: Verify Godot installation
+      run: godot --version
+
+    - name: Import Godot project
+      run: |
+        godot --headless --import
+      timeout-minutes: 5
+
+    - name: Check project validity
+      run: |
+        godot --headless --quit-after 1000
+      timeout-minutes: 2
+
+    - name: Export project (Linux)
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        mkdir -p builds/linux
+        godot --headless --export-release "Linux/X11" builds/linux/game.x86_64 || echo "Export preset not configured yet"
+
+    - name: Export project (Windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        mkdir -p builds/windows
+        godot --headless --export-release "Windows Desktop" builds/windows/game.exe || echo "Export preset not configured yet"
+      shell: bash
+
+    - name: Export project (macOS)
+      if: matrix.os == 'macos-latest'
+      run: |
+        mkdir -p builds/macos
+        godot --headless --export-release "macOS" builds/macos/game.app || echo "Export preset not configured yet"
+
+    - name: Upload artifacts (Linux)
+      if: matrix.os == 'ubuntu-latest' && success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: linux-build
+        path: builds/linux/
+        if-no-files-found: ignore
+
+    - name: Upload artifacts (Windows)
+      if: matrix.os == 'windows-latest' && success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows-build
+        path: builds/windows/
+        if-no-files-found: ignore
+
+    - name: Upload artifacts (macOS)
+      if: matrix.os == 'macos-latest' && success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: macos-build
+        path: builds/macos/
+        if-no-files-found: ignore
