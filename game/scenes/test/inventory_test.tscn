@@ -1,0 +1,63 @@
+[gd_scene load_steps=3 format=3 uid="uid://dhwsagqkyux48"]
+
+[ext_resource type="PackedScene" uid="uid://dgue6xj63xqss" path="res://game/scenes/inventory/inventory_ui.tscn" id="1"]
+[ext_resource type="Script" uid="uid://deqfawwqtjy4e" path="res://game/scripts/test/inventory_test.gd" id="2"]
+
+[node name="InventoryTest" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.1, 0.1, 0.15, 1)
+
+[node name="InventoryUI" parent="." instance=ExtResource("1")]
+layout_mode = 1
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TestPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 220.0
+offset_bottom = 200.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TestPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TestPanel/VBoxContainer"]
+layout_mode = 2
+text = "Test Items:"
+
+[node name="AddSwordButton" type="Button" parent="TestPanel/VBoxContainer"]
+layout_mode = 2
+text = "Add Sword"
+
+[node name="AddHorseButton" type="Button" parent="TestPanel/VBoxContainer"]
+layout_mode = 2
+text = "Add Horse"
+
+[node name="AddFoodButton" type="Button" parent="TestPanel/VBoxContainer"]
+layout_mode = 2
+text = "Add Food"
+
+[node name="ClearButton" type="Button" parent="TestPanel/VBoxContainer"]
+layout_mode = 2
+text = "Clear Inventory"

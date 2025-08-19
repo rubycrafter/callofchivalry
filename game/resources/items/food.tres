@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://c2oycb25iohwl"]
+
+[ext_resource type="Script" uid="uid://dym2fd3e8nfur" path="res://game/scripts/items/item.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+name = "Food Rations"
+description = "Dried meat and bread. Restores 1 health point."
+weight = 0.5
+size = Vector2i(1, 1)
+consumable = true
+stackable = true
+max_stack = 5
+value = 2
+item_type = 2
