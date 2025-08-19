@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Item" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://game/scripts/items/item.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+name = "Horse"
+description = "A loyal steed. Can help you escape dangerous situations."
+weight = 0.0
+size = Vector2i(2, 2)
+consumable = true
+stackable = false
+max_stack = 1
+value = 20
+item_type = 4
