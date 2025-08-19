@@ -61,7 +61,33 @@ func _ready() -> void:
 	super._ready()
 	_add_level_select_if_set()
 	_show_continue_if_set()
+	_add_debug_buttons()
 	animation_state_machine = $MenuAnimationTree.get("parameters/playback")
+
+func _add_debug_buttons() -> void:
+	# Add debug buttons only in debug builds
+	if not OS.is_debug_build() and not OS.has_feature("editor"):
+		return
+	
+	var button_container = get_node("MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer")
+	
+	# Add separator
+	var separator = HSeparator.new()
+	button_container.add_child(separator)
+	
+	# Add Test Inventory button
+	var test_inventory_btn = Button.new()
+	test_inventory_btn.name = "TestInventoryButton"
+	test_inventory_btn.text = "Test Inventory"
+	test_inventory_btn.pressed.connect(_on_test_inventory_button_pressed)
+	button_container.add_child(test_inventory_btn)
+	
+	# Add Show Inventory button
+	var show_inventory_btn = Button.new()
+	show_inventory_btn.name = "ShowInventoryButton"
+	show_inventory_btn.text = "Show Inventory UI"
+	show_inventory_btn.pressed.connect(_on_show_inventory_button_pressed)
+	button_container.add_child(show_inventory_btn)
 
 func _on_continue_game_button_pressed() -> void:
 	GameState.continue_game()
@@ -73,3 +99,11 @@ func _on_level_select_button_pressed() -> void:
 func _on_new_game_confirmation_dialog_confirmed():
 	GameState.reset()
 	load_game_scene()
+
+func _on_test_inventory_button_pressed() -> void:
+	var inventory_scene = preload("res://game/scenes/test/inventory_test.tscn")
+	get_tree().change_scene_to_packed(inventory_scene)
+
+func _on_show_inventory_button_pressed() -> void:
+	var inventory_ui = preload("res://game/scenes/inventory/inventory_ui.tscn").instantiate()
+	get_tree().root.add_child(inventory_ui)
