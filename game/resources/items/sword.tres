@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="Item" load_steps=2 format=3 uid="uid://ohmc56tlgtos"]
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://ohmc56tlgtos"]
 
 [ext_resource type="Script" uid="uid://dym2fd3e8nfur" path="res://game/scripts/items/item.gd" id="1"]
+[ext_resource type="Texture2D" path="res://game/assets/items/sword_icon.png" id="2"]
 
 [resource]
 script = ExtResource("1")
+icon = ExtResource("2")
 name = "Sword"
 description = "A trusty steel sword. Useful against bandits and monsters."
 weight = 3.5

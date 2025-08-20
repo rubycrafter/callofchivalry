@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://game/scripts/items/item.gd" id="1"]
+[ext_resource type="Texture2D" path="res://game/assets/items/water_flask_icon.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+icon = ExtResource("2")
+name = "Water Flask"
+description = "A leather flask filled with water. Essential for desert travel."
+weight = 1.0
+size = Vector2i(1, 2)
+consumable = true
+stackable = false
+max_stack = 1
+value = 4
+item_type = 2

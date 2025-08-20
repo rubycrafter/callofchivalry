@@ -59,13 +59,26 @@ func is_position_valid(position: Vector2i, size: Vector2i) -> bool:
 func is_space_occupied(position: Vector2i, size: Vector2i) -> bool:
 	for x in range(position.x, position.x + size.x):
 		for y in range(position.y, position.y + size.y):
-			var check_pos = Vector2i(x, y)
 			for item_pos in items:
 				var item = items[item_pos]
 				if x >= item_pos.x and x < item_pos.x + item.size.x:
 					if y >= item_pos.y and y < item_pos.y + item.size.y:
 						return true
 	return false
+
+func get_item_at(position: Vector2i) -> Item:
+	# Check if there's an item starting at this position
+	if items.has(position):
+		return items[position]
+	
+	# Check if this position is occupied by a larger item
+	for item_pos in items:
+		var item = items[item_pos]
+		if position.x >= item_pos.x and position.x < item_pos.x + item.size.x:
+			if position.y >= item_pos.y and position.y < item_pos.y + item.size.y:
+				return item
+	
+	return null
 
 func find_free_slot(item_size: Vector2i) -> Vector2i:
 	for y in range(grid_size.y - item_size.y + 1):
@@ -79,6 +92,9 @@ func get_all_items() -> Array[Item]:
 	return items.values()
 
 func clear():
+	for pos in items:
+		var item = items[pos]
+		item_removed.emit(item, pos)
 	items.clear()
 	current_weight = 0.0
 	weight_changed.emit(current_weight)

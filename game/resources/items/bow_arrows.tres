@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://game/scripts/items/item.gd" id="1"]
+[ext_resource type="Texture2D" path="res://game/assets/items/bow_arrows_icon.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+icon = ExtResource("2")
+name = "Bow & Arrows"
+description = "A hunting bow with a quiver of arrows. Useful for ranged combat."
+weight = 2.0
+size = Vector2i(1, 3)
+consumable = true
+stackable = false
+max_stack = 1
+value = 12
+item_type = 0
