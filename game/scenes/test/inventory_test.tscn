@@ -20,8 +20,6 @@ color = Color(0.1, 0.1, 0.15, 1)
 
 [node name="InventoryUI" parent="." instance=ExtResource("1")]
 layout_mode = 1
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="TestPanel" type="Panel" parent="."]
 layout_mode = 0

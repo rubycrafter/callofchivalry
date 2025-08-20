@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Item" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://game/scripts/items/item.gd" id="1"]
+[ext_resource type="Texture2D" path="res://game/assets/items/map_icon.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+icon = ExtResource("2")
+name = "Map"
+description = "A detailed map of the realm. Reveals location connections."
+weight = 0.1
+size = Vector2i(1, 1)
+consumable = false
+stackable = false
+max_stack = 1
+value = 6
+item_type = 4

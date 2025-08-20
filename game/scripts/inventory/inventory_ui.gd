@@ -66,23 +66,46 @@ func _update_weight_display():
 			weight_label.modulate = Color.WHITE
 
 func _on_item_added(item: Item, position: Vector2i):
+	# Set the item in the main slot
 	var slot_index = position.y * inventory.grid_size.x + position.x
 	if slot_index < slots.size():
 		slots[slot_index].set_item(item)
+	
+	# Mark other slots as occupied by this item
+	for y in range(item.size.y):
+		for x in range(item.size.x):
+			if x == 0 and y == 0:
+				continue
+			var occupied_index = (position.y + y) * inventory.grid_size.x + (position.x + x)
+			if occupied_index < slots.size():
+				slots[occupied_index].set_occupied_by(position)
 
 func _on_item_removed(item: Item, position: Vector2i):
+	# Clear the main slot
 	var slot_index = position.y * inventory.grid_size.x + position.x
 	if slot_index < slots.size():
 		slots[slot_index].clear()
+	
+	# Clear other slots that were occupied by this item
+	for y in range(item.size.y):
+		for x in range(item.size.x):
+			if x == 0 and y == 0:
+				continue
+			var occupied_index = (position.y + y) * inventory.grid_size.x + (position.x + x)
+			if occupied_index < slots.size():
+				slots[occupied_index].clear_occupied()
 
 func _on_slot_clicked(slot: InventorySlot):
 	if dragged_item:
-		if inventory.can_add_item(dragged_item, slot.grid_position):
+		if not slot.is_occupied() and inventory.can_add_item(dragged_item, slot.grid_position):
 			inventory.add_item(dragged_item, slot.grid_position)
 			dragged_item = null
-	elif slot.item:
-		dragged_item = inventory.remove_item(slot.grid_position)
-		dragged_from_slot = slot.grid_position
+	else:
+		var main_pos = slot.get_main_position()
+		if main_pos.x >= 0:
+			dragged_item = inventory.remove_item(main_pos)
+			if dragged_item:
+				dragged_from_slot = main_pos
 
 func _on_item_dropped_to_slot(item: Item, slot: InventorySlot):
 	if inventory.can_add_item(item, slot.grid_position):
