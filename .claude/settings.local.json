@@ -7,13 +7,18 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(gh pr checks:*)"
+      "Bash(gh pr checks:*)",
+      "Bash(gh issue list:*)",
+      "mcp__godot-mcp__create_scene",
+      "mcp__godot-mcp__run_project",
+      "mcp__godot-mcp__get_debug_output",
+      "mcp__godot-mcp__stop_project"
     ],
     "deny": [],
     "ask": []
   },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "godot-mcp"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }

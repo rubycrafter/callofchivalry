@@ -1,5 +1,10 @@
 # Claude Code Working Preferences
 
+## Work with git
+- First, brfore implement any feature, check if we are on the right git branch.
+- Create branch for each new feature.
+- Small changes can be implemented and pushed directly in main branch.
+
 ## Project Overview
 - **Type**: Godot 4.4 game project (Call of Chivalry)
 - **Template**: Based on Maaack's Game Template
