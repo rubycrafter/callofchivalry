@@ -2,6 +2,7 @@ extends Node
 
 const Knight = preload("res://game/scripts/knight/knight.gd")
 var knight
+var test_results = {"total": 0, "passed": 0, "failed": 0, "details": []}
 
 func _ready():
 	print("=== Knight Test Scene ===")
@@ -13,45 +14,51 @@ func _ready():
 	knight.coins_changed.connect(_on_coins_changed)
 	knight.died.connect(_on_knight_died)
 	knight.horse_status_changed.connect(_on_horse_status_changed)
-	
-	run_tests()
 
 func run_tests():
+	test_results = {"total": 0, "passed": 0, "failed": 0, "details": []}
+	
 	print("\n--- Initial State ---")
-	print("Health: %d/%d" % [knight.current_health, knight.max_health])
-	print("Coins: %d" % knight.coins)
-	print("Has Horse: %s" % knight.has_horse)
+	assert_equals(knight.current_health, Knight.MAX_HEALTH, "Initial health should be MAX_HEALTH")
+	assert_equals(knight.coins, Knight.STARTING_COINS, "Initial coins should be STARTING_COINS")
+	assert_equals(knight.has_horse, true, "Should start with a horse")
 	
 	print("\n--- Health System Test ---")
 	knight.take_damage(1)
-	print("After 1 damage - Health: %d/%d" % [knight.current_health, knight.max_health])
+	assert_equals(knight.current_health, 2, "Health should be 2 after 1 damage")
 	
 	knight.heal(1)
-	print("After 1 heal - Health: %d/%d" % [knight.current_health, knight.max_health])
+	assert_equals(knight.current_health, 3, "Health should be 3 after healing")
 	
 	knight.take_damage(3)
-	print("After 3 damage - Health: %d/%d (should trigger death)" % [knight.current_health, knight.max_health])
+	assert_equals(knight.current_health, 0, "Health should be 0 after lethal damage")
+	assert_equals(knight.is_alive(), false, "Knight should be dead")
 	
 	print("\n--- Reset Test ---")
 	knight.reset()
-	print("After reset - Health: %d/%d, Coins: %d, Horse: %s" % [knight.current_health, knight.max_health, knight.coins, knight.has_horse])
+	assert_equals(knight.current_health, Knight.MAX_HEALTH, "Health should be restored after reset")
+	assert_equals(knight.coins, Knight.STARTING_COINS, "Coins should be restored after reset")
+	assert_equals(knight.has_horse, true, "Horse should be restored after reset")
+	assert_equals(knight.is_alive(), true, "Knight should be alive after reset")
 	
 	print("\n--- Coins System Test ---")
-	print("Can afford 3 coins: %s" % knight.can_afford(3))
-	print("Can afford 10 coins: %s" % knight.can_afford(10))
+	assert_equals(knight.can_afford(3), true, "Should afford 3 coins with 5 coins")
+	assert_equals(knight.can_afford(10), false, "Should not afford 10 coins with 5 coins")
 	
-	if knight.spend_coins(3):
-		print("Spent 3 coins successfully - Remaining: %d" % knight.coins)
+	var spent = knight.spend_coins(3)
+	assert_equals(spent, true, "Should successfully spend 3 coins")
+	assert_equals(knight.coins, 2, "Should have 2 coins after spending 3")
 	
 	knight.add_coins(10)
-	print("Added 10 coins - Total: %d" % knight.coins)
+	assert_equals(knight.coins, 12, "Should have 12 coins after adding 10")
 	
 	print("\n--- Horse System Test ---")
-	print("Can escape on horse: %s" % knight.can_escape_on_horse())
+	assert_equals(knight.can_escape_on_horse(), true, "Should be able to escape with horse")
 	knight.lose_horse()
-	print("Lost horse - Can escape: %s" % knight.can_escape_on_horse())
+	assert_equals(knight.has_horse, false, "Should not have horse after losing it")
+	assert_equals(knight.can_escape_on_horse(), false, "Should not escape without horse")
 	knight.gain_horse()
-	print("Gained horse - Can escape: %s" % knight.can_escape_on_horse())
+	assert_equals(knight.has_horse, true, "Should have horse after gaining it")
 	
 	print("\n--- Save/Load Test ---")
 	knight.take_damage(1)
@@ -59,15 +66,31 @@ func run_tests():
 	knight.lose_horse()
 	
 	var save_data = knight.save_data()
-	print("Saved state - Health: %d, Coins: %d, Horse: %s" % [save_data.health, save_data.coins, save_data.has_horse])
+	assert_equals(save_data.health, 2, "Save data should have correct health")
+	assert_equals(save_data.coins, 10, "Save data should have correct coins")
+	assert_equals(save_data.has_horse, false, "Save data should have correct horse status")
 	
 	knight.reset()
-	print("After reset - Health: %d, Coins: %d, Horse: %s" % [knight.current_health, knight.coins, knight.has_horse])
-	
 	knight.load_data(save_data)
-	print("After load - Health: %d, Coins: %d, Horse: %s" % [knight.current_health, knight.coins, knight.has_horse])
+	assert_equals(knight.current_health, 2, "Loaded health should match saved")
+	assert_equals(knight.coins, 10, "Loaded coins should match saved")
+	assert_equals(knight.has_horse, false, "Loaded horse status should match saved")
 	
-	print("\n=== All Tests Complete ===")
+	print("\n=== Test Results: %d/%d passed ===" % [test_results.passed, test_results.total])
+
+func assert_equals(actual, expected, test_name: String):
+	test_results.total += 1
+	if actual == expected:
+		test_results.passed += 1
+		print("  ✓ %s" % test_name)
+		test_results.details.append({"name": test_name, "passed": true})
+	else:
+		test_results.failed += 1
+		print("  ✗ %s (expected %s, got %s)" % [test_name, str(expected), str(actual)])
+		test_results.details.append({"name": test_name, "passed": false, "expected": expected, "actual": actual})
+
+func get_results():
+	return test_results
 
 func _on_health_changed(new_health: int, max_health: int):
 	print("  [Signal] Health changed: %d/%d" % [new_health, max_health])
