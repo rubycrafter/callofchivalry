@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://game/scripts/test/ui_auto_test.gd" id="1"]
+[ext_resource type="PackedScene" path="res://game/scenes/menus/main_menu/main_menu_with_animations.tscn" id="2"]
+
+[node name="UIAutoTest" type="Node"]
+script = ExtResource("1")
+
+[node name="MainMenuWithAnimations" parent="." instance=ExtResource("2")]
