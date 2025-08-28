@@ -4,6 +4,7 @@ signal all_tests_completed(results: Dictionary)
 
 var test_files: Array = [
 	"res://game/scripts/test/knight_test.gd",
+	# "res://game/scripts/test/game_map_test.gd", # TODO: Fix resource loading in headless mode
 	# "res://game/scripts/test/all_locations_test.gd", # TODO: Fix imports and enable
 	# "res://game/scripts/test/location_test.gd", # TODO: Fix imports and enable
 	# Add more test files here as we create them
