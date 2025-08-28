@@ -22,7 +22,8 @@
       "Bash(git restore:*)",
       "Bash(gh pr view:*)",
       "Bash(git fetch:*)",
-      "Bash(git merge:*)"
+      "Bash(git merge:*)",
+      "mcp__godot-mcp__add_node"
     ],
     "deny": [],
     "ask": []
