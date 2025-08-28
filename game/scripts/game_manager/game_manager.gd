@@ -1,6 +1,8 @@
 class_name GameManager
 extends Node
 
+enum GameState { MENU, PREPARING, IN_LOCATION, CHOOSING_PATH, GAME_OVER }
+
 signal game_started()
 signal game_over(victory: bool)
 signal location_entered(location: Location)
@@ -14,9 +16,7 @@ const Inventory = preload("res://game/scripts/inventory/inventory.gd")
 const Challenge = preload("res://game/scripts/locations/challenge.gd")
 const Location = preload("res://game/scripts/locations/location.gd")
 
-enum GameState { MENU, PREPARING, IN_LOCATION, CHOOSING_PATH, GAME_OVER }
-
-@export var current_state: GameState = GameState.MENU
+@export var current_state: int = GameState.MENU
 @export var save_file_path: String = "user://savegame.dat"
 
 var knight: Knight
@@ -154,7 +154,9 @@ func _apply_rewards(action: Challenge.ChallengeAction) -> void:
 	if action.reward_item:
 		var reward_item = _create_item_from_name(action.reward_item)
 		if reward_item:
-			inventory.add_item(reward_item)
+			var free_slot = inventory.find_free_slot(reward_item.size)
+			if free_slot.x >= 0:
+				inventory.add_item(reward_item, free_slot)
 
 func _create_item_from_name(item_name: String) -> Item:
 	match item_name:

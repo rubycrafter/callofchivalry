@@ -109,4 +109,10 @@ func _on_show_inventory_button_pressed() -> void:
 	get_tree().root.add_child(inventory_ui)
 
 func _on_demo_ui_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://game/scenes/demo.tscn")
+	# Instead of changing scene, add UI as overlay
+	var ui_scene = load("res://game/scenes/main.tscn")
+	if ui_scene:
+		var ui_instance = ui_scene.instantiate()
+		get_tree().root.add_child(ui_instance)
+		# Hide current menu
+		self.visible = false

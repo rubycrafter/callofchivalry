@@ -12,15 +12,15 @@ const Location = preload("res://game/scripts/locations/location.gd")
 var game_manager: GameManager
 
 func _ready() -> void:
-	# Create game manager instance
-	game_manager = GameManager.new()
-	add_child(game_manager)
+	# TEMPORARY: Disabled GameManager to debug hanging issue
+	# game_manager = GameManager.new()
+	# add_child(game_manager)
 	
 	# Connect UI signals
 	_connect_ui_signals()
 	
 	# Connect game manager signals
-	_connect_game_signals()
+	# _connect_game_signals()
 	
 	# Show main menu
 	_show_main_menu()
@@ -47,8 +47,9 @@ func _connect_ui_signals() -> void:
 		game_over_screen.restart_game.connect(_on_restart_game)
 
 func _connect_game_signals() -> void:
-	game_manager.game_started.connect(_on_game_started)
-	game_manager.game_over.connect(_on_game_over)
+	if game_manager:
+		game_manager.game_started.connect(_on_game_started)
+		game_manager.game_over.connect(_on_game_over)
 	# These signals exist but may not be properly exposed
 	# game_manager.location_entered.connect(_on_location_entered)
 	# game_manager.challenge_started.connect(_on_challenge_started)
@@ -72,10 +73,14 @@ func _hide_all_screens() -> void:
 
 # Main menu handlers
 func _on_new_game() -> void:
-	game_manager.start_new_game()
+	if game_manager:
+		game_manager.start_new_game()
+	else:
+		# Demo mode without game manager
+		_show_location_selection(false)
 
 func _on_continue_game() -> void:
-	if game_manager.load_from_file():
+	if game_manager and game_manager.load_from_file():
 		# For now, just show main menu after load
 		_show_main_menu()
 	else:
@@ -118,11 +123,19 @@ func _on_location_completed(location: Location) -> void:
 	_show_location_selection(false)
 
 func _on_challenge_action_selected(action_index: int) -> void:
-	game_manager.execute_challenge_action(action_index)
+	if game_manager:
+		game_manager.execute_challenge_action(action_index)
+	else:
+		# Demo mode - show game over
+		_show_game_over(true)
 
 # Location selection handlers
 func _on_location_selected(location_index: int) -> void:
-	game_manager.select_starting_location(location_index)
+	if game_manager:
+		game_manager.select_starting_location(location_index)
+	else:
+		# Demo mode - show challenge screen with demo data
+		_show_challenge_demo()
 
 func _show_location_selection(is_initial: bool) -> void:
 	_hide_all_screens()
@@ -137,19 +150,28 @@ func _show_location_selection(is_initial: bool) -> void:
 func _show_game_over(victory: bool) -> void:
 	_hide_all_screens()
 	
-	var stats = game_manager.get_game_stats()
+	var stats = {}
+	if game_manager:
+		stats = game_manager.get_game_stats()
+	else:
+		# Demo stats
+		stats = {"knight_health": 3, "knight_max_health": 3, "knight_coins": 5}
 	
 	if game_over_screen:
 		game_over_screen.show_screen()
 		game_over_screen.setup_game_over(victory, stats)
 
 func _on_return_to_menu() -> void:
-	game_manager.reset_game()
+	if game_manager:
+		game_manager.reset_game()
 	_show_main_menu()
 
 func _on_restart_game() -> void:
-	game_manager.reset_game()
-	game_manager.start_new_game()
+	if game_manager:
+		game_manager.reset_game()
+		game_manager.start_new_game()
+	else:
+		_on_new_game()
 
 func _update_challenge_screen_status() -> void:
 	if not challenge_screen:
@@ -157,3 +179,19 @@ func _update_challenge_screen_status() -> void:
 	
 	# TODO: Update with actual knight stats once properly integrated
 	challenge_screen.update_status(3, 3, 5, true, 0.0)
+
+func _show_challenge_demo() -> void:
+	# Demo challenge for testing without GameManager
+	_hide_all_screens()
+	if challenge_screen:
+		challenge_screen.show_screen()
+		# Create demo challenge
+		var demo_challenge = {}
+		demo_challenge["title"] = "Demo Challenge"  
+		demo_challenge["description"] = "This is a test challenge"
+		var demo_actions = [
+			{"text": "Action 1"},
+			{"text": "Action 2"},
+			{"text": "Action 3"}
+		]
+		challenge_screen.setup_challenge(demo_challenge, demo_actions, "Demo Location")
