@@ -53,6 +53,51 @@ gh run view <run-id> --log
 gh api repos/rubycrafter/callofchivalry/actions/runs/<run-id>/artifacts
 ```
 
+### Automated Testing
+
+#### Test Framework
+- **Test Runner**: `game/scenes/test/test_runner.tscn` - Orchestrates all tests
+- **Test Scripts**: Located in `game/scripts/test/` directory
+- **Test Pattern**: All test files should end with `_test.gd`
+
+#### Running Tests Locally
+```bash
+# Windows (from project root)
+test.bat
+
+# Linux/Mac or Git Bash
+./test.sh
+
+# Using Godot directly
+godot --headless --path . game/scenes/test/test_runner.tscn
+
+# Using MCP tools (when available)
+mcp__godot-mcp__run_project with scene: game/scenes/test/test_runner.tscn
+```
+
+#### Test Development Guidelines
+1. **Always run tests before committing** - Use `test.bat` or MCP tools
+2. **Add tests for new features** - Create new test files in `game/scripts/test/`
+3. **Use assertions** - Each test should use `assert_equals()` for validation
+4. **Signal testing** - Connect to signals and verify they emit correctly
+5. **Return test results** - Implement `get_results()` method for CI integration
+
+#### MCP Testing Tools Available
+- `mcp__godot-mcp__run_project` - Run project with specific scene
+- `mcp__godot-mcp__get_debug_output` - Check for errors and debug output
+- `mcp__godot-mcp__stop_project` - Stop running project
+
+#### Test Result Format
+Tests return results in this format:
+```gdscript
+{
+  "total": 26,
+  "passed": 26,
+  "failed": 0,
+  "details": [...]
+}
+```
+
 ## Language Preference
 
 Можно общаться на русском или английском - как удобнее.
