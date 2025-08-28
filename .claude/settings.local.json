@@ -12,7 +12,17 @@
       "mcp__godot-mcp__create_scene",
       "mcp__godot-mcp__run_project",
       "mcp__godot-mcp__get_debug_output",
-      "mcp__godot-mcp__stop_project"
+      "mcp__godot-mcp__stop_project",
+      "mcp__godot-mcp__get_godot_version",
+      "Bash(godot:*)",
+      "Bash(env)",
+      "Bash(\"/d/Program Files (x86)/Steam/steamapps/common/Godot Engine/godot.windows.opt.tools.64.exe\" --headless --path . game/scenes/test/test_runner.tscn)",
+      "Bash(./test.sh)",
+      "Bash(git pull:*)",
+      "Bash(git restore:*)",
+      "Bash(gh pr view:*)",
+      "Bash(git fetch:*)",
+      "Bash(git merge:*)"
     ],
     "deny": [],
     "ask": []

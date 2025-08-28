@@ -9,7 +9,7 @@ signal challenge_completed(challenge: Challenge, action: Challenge.ChallengeActi
 signal location_completed(location: Location)
 
 const Knight = preload("res://game/scripts/knight/knight.gd")
-# const GameMap = preload("res://game/scripts/game_map/game_map.gd") # TODO: Enable after GameMap is merged
+const GameMap = preload("res://game/scripts/game_map/game_map.gd")
 const Inventory = preload("res://game/scripts/inventory/inventory.gd")
 
 enum GameState { MENU, PREPARING, IN_LOCATION, CHOOSING_PATH, GAME_OVER }
@@ -18,7 +18,7 @@ enum GameState { MENU, PREPARING, IN_LOCATION, CHOOSING_PATH, GAME_OVER }
 @export var save_file_path: String = "user://savegame.dat"
 
 var knight: Knight
-var game_map #: GameMap # TODO: Enable type after GameMap is merged
+var game_map: GameMap
 var inventory: Inventory
 var current_location: Location
 var current_challenge: Challenge
@@ -26,7 +26,7 @@ var current_challenge_index: int = 0
 
 func _init() -> void:
 	knight = Knight.new()
-	# game_map = GameMap.new() # TODO: Enable after GameMap is merged
+	game_map = GameMap.new()
 	inventory = Inventory.new()
 	
 	_connect_signals()
@@ -36,10 +36,9 @@ func _connect_signals() -> void:
 	knight.died.connect(_on_knight_died)
 	knight.coins_changed.connect(_on_knight_coins_changed)
 	
-	# TODO: Enable after GameMap is merged
-	# if game_map:
-	#	game_map.location_selected.connect(_on_location_selected)
-	#	game_map.journey_completed.connect(_on_journey_completed)
+	if game_map:
+		game_map.location_selected.connect(_on_location_selected)
+		game_map.journey_completed.connect(_on_journey_completed)
 
 func start_new_game() -> void:
 	reset_game()
@@ -48,7 +47,7 @@ func start_new_game() -> void:
 
 func reset_game() -> void:
 	knight.reset()
-	# game_map.reset() # TODO: Enable after GameMap is merged
+	game_map.reset()
 	inventory.clear_inventory()
 	current_location = null
 	current_challenge = null
@@ -59,12 +58,11 @@ func select_starting_location(location_index: int) -> void:
 	if current_state != GameState.PREPARING:
 		return
 	
-	# TODO: Enable after GameMap is merged
-	# var choices = game_map.get_initial_location_choices()
-	# if location_index >= 0 and location_index < choices.size():
-	#	var selected_location = choices[location_index]
-	#	game_map.start_journey_from(selected_location)
-	#	enter_location(selected_location)
+	var choices = game_map.get_initial_location_choices()
+	if location_index >= 0 and location_index < choices.size():
+		var selected_location = choices[location_index]
+		game_map.start_journey_from(selected_location)
+		enter_location(selected_location)
 
 func enter_location(location: Location) -> void:
 	current_location = location
@@ -200,19 +198,17 @@ func complete_location() -> void:
 	show_path_choices()
 
 func show_path_choices() -> Array[Location]:
-	# return game_map.get_available_next_locations() # TODO: Enable after GameMap is merged
-	return []
+	return game_map.get_available_next_locations()
 
 func choose_next_location(location_index: int) -> void:
 	if current_state != GameState.CHOOSING_PATH:
 		return
 	
-	# TODO: Enable after GameMap is merged
-	# var choices = game_map.get_available_next_locations()
-	# if location_index >= 0 and location_index < choices.size():
-	#	var selected_location = choices[location_index]
-	#	if game_map.move_to_location(selected_location):
-	#		enter_location(selected_location)
+	var choices = game_map.get_available_next_locations()
+	if location_index >= 0 and location_index < choices.size():
+		var selected_location = choices[location_index]
+		if game_map.move_to_location(selected_location):
+			enter_location(selected_location)
 
 func end_game(victory: bool) -> void:
 	current_state = GameState.GAME_OVER
@@ -242,12 +238,12 @@ func save_game() -> Dictionary:
 		"state": current_state,
 		"knight": knight.get_save_data(),
 		"inventory": inventory.get_save_data(),
-		# "game_map": { # TODO: Enable after GameMap is merged
-		#	"current_row": game_map.current_row,
-		#	"current_position": game_map.current_position,
-		#	"visited_locations": game_map.visited_locations,
-		#	"completed_locations": game_map.completed_locations
-		# },
+		"game_map": {
+			"current_row": game_map.current_row,
+			"current_position": game_map.current_position,
+			"visited_locations": game_map.visited_locations,
+			"completed_locations": game_map.completed_locations
+		},
 		"current_challenge_index": current_challenge_index
 	}
 	
@@ -266,21 +262,19 @@ func load_game(save_data: Dictionary) -> bool:
 	knight.load_save_data(save_data.get("knight", {}))
 	inventory.load_save_data(save_data.get("inventory", {}))
 	
-	# TODO: Enable after GameMap is merged
-	# var map_data = save_data.get("game_map", {})
-	# game_map.current_row = map_data.get("current_row", GameMap.MapRow.ROW_1)
-	# game_map.current_position = map_data.get("current_position", GameMap.LocationPosition.CENTER)
-	# game_map.visited_locations = map_data.get("visited_locations", [])
-	# game_map.completed_locations = map_data.get("completed_locations", [])
+	var map_data = save_data.get("game_map", {})
+	game_map.current_row = map_data.get("current_row", GameMap.MapRow.ROW_1)
+	game_map.current_position = map_data.get("current_position", GameMap.LocationPosition.CENTER)
+	game_map.visited_locations = map_data.get("visited_locations", [])
+	game_map.completed_locations = map_data.get("completed_locations", [])
 	
 	current_challenge_index = save_data.get("current_challenge_index", 0)
 	
-	# TODO: Enable after GameMap is merged
-	# if save_data.has("current_location"):
-	#	var location = game_map.get_current_location()
-	#	if location:
-	#		current_location = location
-	#		current_location.enter_location()
+	if save_data.has("current_location"):
+		var location = game_map.get_current_location()
+		if location:
+			current_location = location
+			current_location.enter_location()
 	
 	return true
 
@@ -314,8 +308,8 @@ func get_game_stats() -> Dictionary:
 		"knight_coins": knight.coins,
 		"knight_has_horse": knight.has_horse,
 		"inventory_items": inventory.items.size(),
-		# "locations_visited": game_map.visited_locations.size(), # TODO: Enable after GameMap is merged
-		# "locations_completed": game_map.completed_locations.size(),
-		# "progress": game_map.get_progress_percentage(),
+		"locations_visited": game_map.visited_locations.size(),
+		"locations_completed": game_map.completed_locations.size(),
+		"progress": game_map.get_progress_percentage(),
 		"current_state": GameState.keys()[current_state]
 	}
