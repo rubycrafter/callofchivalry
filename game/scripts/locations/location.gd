@@ -1,6 +1,8 @@
 class_name Location
 extends Resource
 
+const Challenge = preload("res://game/scripts/locations/challenge.gd")
+
 @export var name: String = ""
 @export var description: String = ""
 @export var icon_path: String = ""

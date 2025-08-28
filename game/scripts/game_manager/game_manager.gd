@@ -11,6 +11,8 @@ signal location_completed(location: Location)
 const Knight = preload("res://game/scripts/knight/knight.gd")
 const GameMap = preload("res://game/scripts/game_map/game_map.gd")
 const Inventory = preload("res://game/scripts/inventory/inventory.gd")
+const Challenge = preload("res://game/scripts/locations/challenge.gd")
+const Location = preload("res://game/scripts/locations/location.gd")
 
 enum GameState { MENU, PREPARING, IN_LOCATION, CHOOSING_PATH, GAME_OVER }
 

@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://game/scripts/ui/ui_controller.gd" id="1"]
+
+[node name="root" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1")
+
+[node name="MainMenu" type="Control" parent="."]
+anchors_preset = 0
+
+[node name="LocationSelectionScreen" type="Control" parent="."]
+anchors_preset = 0
+
+[node name="ChallengeScreen" type="Control" parent="."]
+anchors_preset = 0
+
+[node name="GameOverScreen" type="Control" parent="."]
+anchors_preset = 0
