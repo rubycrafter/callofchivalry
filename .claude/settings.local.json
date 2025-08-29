@@ -23,7 +23,22 @@
       "Bash(gh pr view:*)",
       "Bash(git fetch:*)",
       "Bash(git merge:*)",
-      "mcp__godot-mcp__add_node"
+      "mcp__godot-mcp__add_node",
+      "mcp__godot-mcp__launch_editor",
+      "Bash(\"D:\\Program Files (x86)\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.64.exe\" --headless --check-only)",
+      "Bash(\"D:\\Program Files (x86)\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.64.exe\" --headless --path \"C:\\Users\\Anton\\dev\\godot\\call-of-chivalry\" --quit)",
+      "Bash(taskkill:*)",
+      "Bash(true)",
+      "Bash(\"D:\\Program Files (x86)\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.64.exe\" --headless --path \"C:\\Users\\Anton\\dev\\godot\\call-of-chivalry\" game/scenes/test/ui_auto_test.tscn)",
+      "Bash(\"D:\\Program Files (x86)\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.64.exe\" --headless --path \"C:\\Users\\Anton\\dev\\godot\\call-of-chivalry\" game/scenes/test/ui_auto_test.tscn)",
+      "Bash(\"D:\\Program Files (x86)\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.64.exe\" --headless --path \"C:\\Users\\Anton\\dev\\godot\\call-of-chivalry\" game/scenes/test/ui_auto_test.tscn)",
+      "Bash(\"D:\\Program Files (x86)\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.64.exe\" --headless --path \"C:\\Users\\Anton\\dev\\godot\\call-of-chivalry\" game/scenes/test/debug_main_scene.tscn)",
+      "Bash(\"D:\\Program Files (x86)\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.64.exe\" --headless --path \"C:\\Users\\Anton\\dev\\godot\\call-of-chivalry\" game/scenes/test/ui_auto_test.tscn)",
+      "Bash(\"D:\\Program Files (x86)\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.64.exe\" --headless --path \"C:\\Users\\Anton\\dev\\godot\\call-of-chivalry\" game/scenes/test/simple_scene_change_test.tscn)",
+      "Bash(\"D:\\Program Files (x86)\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.64.exe\" --headless --path \"C:\\Users\\Anton\\dev\\godot\\call-of-chivalry\" game/scenes/test/simple_scene_change_test.tscn)",
+      "Bash(\"D:\\Program Files (x86)\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.64.exe\" --headless --path \"C:\\Users\\Anton\\dev\\godot\\call-of-chivalry\" game/scenes/test/ui_auto_test.tscn)",
+      "Bash(gh run list:*)",
+      "Bash(gh pr list:*)"
     ],
     "deny": [],
     "ask": []
