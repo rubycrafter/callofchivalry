@@ -38,7 +38,10 @@
       "Bash(\"D:\\Program Files (x86)\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.64.exe\" --headless --path \"C:\\Users\\Anton\\dev\\godot\\call-of-chivalry\" game/scenes/test/simple_scene_change_test.tscn)",
       "Bash(\"D:\\Program Files (x86)\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.64.exe\" --headless --path \"C:\\Users\\Anton\\dev\\godot\\call-of-chivalry\" game/scenes/test/ui_auto_test.tscn)",
       "Bash(gh run list:*)",
-      "Bash(gh pr list:*)"
+      "Bash(gh pr list:*)",
+      "Bash(rm:*)",
+      "Bash(touch:*)",
+      "Bash(\"D:\\Program Files (x86)\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.64.exe\" --headless --path \"C:\\Users\\Anton\\dev\\godot\\call-of-chivalry\" game/scenes/test/test_runner.tscn)"
     ],
     "deny": [],
     "ask": []
