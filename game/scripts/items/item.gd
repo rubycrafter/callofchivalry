@@ -24,5 +24,5 @@ enum ItemType {
 func can_use() -> bool:
 	return true
 
-func use() -> void:
-	pass
+func use() -> Dictionary:
+	return {"consumed": false}
