@@ -3,6 +3,7 @@
 ## Work with git
 - First, before implement any feature, check if we are on the right git branch.
 - Create branch for each new feature.
+- Don't forget to make git pull before creating new branch from main.
 - Small changes can be implemented and pushed directly in main branch.
 
 ## Project Overview
