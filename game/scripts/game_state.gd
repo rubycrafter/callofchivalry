@@ -5,8 +5,11 @@ const STATE_NAME : String = "GameState"
 const FILE_PATH = "res://game/scripts/game_state.gd"
 
 @export var level_states : Dictionary = {}
+@export var location_states : Dictionary = {}
 @export var current_level_path : String
+@export var current_location_path : String
 @export var continue_level_path : String
+@export var continue_location_path : String
 @export var times_played : int
 
 static func get_level_state(level_state_key : String) -> LevelState:
@@ -65,6 +68,25 @@ static func continue_game() -> void:
 static func reset() -> void:
 	var game_state := get_or_create_state()
 	game_state.level_states = {}
+	game_state.location_states = {}
 	game_state.current_level_path = ""
+	game_state.current_location_path = ""
 	game_state.continue_level_path = ""
+	game_state.continue_location_path = ""
+	GlobalState.save()
+
+static func get_location_state(location_state_key : String) -> Resource:
+	if not has_game_state(): 
+		return
+	var game_state := get_or_create_state()
+	if location_state_key.is_empty() : return
+	if location_state_key in game_state.location_states:
+		return game_state.location_states[location_state_key] 
+	else:
+		var new_location_state := Resource.new()
+		game_state.location_states[location_state_key] = new_location_state
+		GlobalState.save()
+		return new_location_state
+
+static func save_game() -> void:
 	GlobalState.save()

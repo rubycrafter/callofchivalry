@@ -15,7 +15,8 @@ func new_game() -> void:
 		%NewGameConfirmationDialog.popup_centered()
 	else:
 		GameState.reset()
-		load_game_scene()
+		# Start with location selection or first location
+		get_tree().change_scene_to_file("res://game/scenes/game_scene/locations/forest.tscn")
 
 func intro_done() -> void:
 	animation_state_machine.travel("OpenMainMenu")

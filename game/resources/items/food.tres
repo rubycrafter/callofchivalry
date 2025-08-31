@@ -1,13 +1,13 @@
-[gd_resource type="Resource" script_class="Item" load_steps=3 format=3 uid="uid://c2oycb25iohwl"]
+[gd_resource type="Resource" script_class="ConsumableItem" load_steps=3 format=3 uid="uid://c2oycb25iohwl"]
 
-[ext_resource type="Script" uid="uid://dym2fd3e8nfur" path="res://game/scripts/items/item.gd" id="1"]
+[ext_resource type="Script" path="res://game/scripts/items/consumable_item.gd" id="1"]
 [ext_resource type="Texture2D" path="res://game/assets/items/food_icon.png" id="2"]
 
 [resource]
 script = ExtResource("1")
 icon = ExtResource("2")
-name = "Food Rations"
-description = "Dried meat and bread. Restores 1 health point."
+name = "Провизия"
+description = "Сушёное мясо и хлеб. Восстанавливает 1 очко здоровья."
 weight = 0.5
 size = Vector2i(1, 1)
 consumable = true
@@ -15,3 +15,6 @@ stackable = true
 max_stack = 5
 value = 2
 item_type = 2
+effect_type = 0
+effect_value = 1
+uses = 1

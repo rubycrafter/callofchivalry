@@ -1,8 +1,9 @@
 # Claude Code Working Preferences
 
 ## Work with git
-- First, brfore implement any feature, check if we are on the right git branch.
+- First, before implement any feature, check if we are on the right git branch.
 - Create branch for each new feature.
+- Don't forget to make git pull before creating new branch from main.
 - Small changes can be implemented and pushed directly in main branch.
 
 ## Project Overview
@@ -15,6 +16,7 @@
 - **Use TodoWrite proactively** for task planning and tracking
 - **Systematic debugging** - check logs, compare configs, find root cause
 - **Quick iteration cycles** - commit, push, verify results
+- **Use existing template** - Стараться использовать существующий интерфейс Maaack's Game Template там где это уместно, не создавать дублирующие UI системы
 
 ## Project-Specific Knowledge
 
@@ -29,6 +31,27 @@
 - Godot version: 4.4.0 (use full semantic version)
 - Build output: `builds/windows/call-of-chivalry.exe`
 - Artifacts uploaded as `windows-build`
+
+### Game Architecture (Maaack's Template)
+
+#### Structure
+- **Levels**: Each location is a Level scene in `game/scenes/game_scene/levels/`
+- **GameState**: Singleton for game progress, saves to user://
+- **LevelState**: Per-level state (items found, challenges completed)
+- **MainMenu**: Handles Continue/New Game/Level Select
+- **Overlaid Menus**: Pause, Win/Lose screens as overlays
+
+#### Navigation Flow
+1. MainMenu → Start Game → Level 1
+2. Level complete → signal `level_won_and_changed` → Next Level
+3. GameState tracks progress automatically
+4. Level Select shows unlocked levels from GameState
+
+#### Key Files
+- `game/scripts/game_state.gd` - Game progress management
+- `game/scenes/menus/main_menu/main_menu_with_animations.gd` - Main menu
+- `game/scenes/game_scene/levels/level.gd` - Base level logic
+- `game/scenes/menus/level_select_menu/level_select_menu.gd` - Level selection
 
 ### Common Issues & Solutions
 1. **App crashes on startup after CI build**
