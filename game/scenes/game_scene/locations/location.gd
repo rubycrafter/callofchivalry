@@ -68,30 +68,19 @@ func _get_location_color() -> Color:
 			return Color(0.5, 0.5, 0.5, 1.0)
 
 func _load_challenges() -> void:
-	# For now, create sample challenges
-	# Later these will be loaded from resources or generated
-	var sample_challenge = Challenge.new()
-	sample_challenge.title = "Встреча с бандитами"
-	sample_challenge.description = "На лесной тропе вас окружили бандиты. Они требуют отдать все ценности."
-	sample_challenge.difficulty = 3
+	# Load challenges based on location type
+	var challenge_dir = _get_challenge_directory()
+	var available_challenges = _load_challenge_resources(challenge_dir)
 	
-	var option1 = ChallengeOption.new()
-	option1.text = "Откупиться золотом (-5 золота)"
-	option1.requirements = {"gold": 5}
-	option1.consequences = {"gold": -5}
+	if available_challenges.is_empty():
+		# Fallback to creating a sample challenge if no resources found
+		_create_sample_challenge()
+		return
 	
-	var option2 = ChallengeOption.new()
-	option2.text = "Сражаться (-1 здоровье)"
-	option2.requirements = {}
-	option2.consequences = {"health": -1}
-	
-	var option3 = ChallengeOption.new()
-	option3.text = "Использовать меч"
-	option3.requirements = {"item": "sword"}
-	option3.consequences = {"item_lost": "sword", "gold": 3}
-	
-	sample_challenge.options = [option1, option2, option3]
-	challenges.append(sample_challenge)
+	# Select random challenges (1-3) with total difficulty 5-10
+	var num_challenges = randi_range(1, 3)
+	var target_difficulty = randi_range(5, 10)
+	challenges = _select_challenges(available_challenges, num_challenges, target_difficulty)
 
 func _show_current_challenge() -> void:
 	if current_challenge_index >= challenges.size():
@@ -132,24 +121,33 @@ func _display_challenge(challenge: Challenge) -> void:
 		var option = challenge.options[i]
 		if _can_select_option(option):
 			var button = Button.new()
-			button.text = option.text
+			button.text = option.get_formatted_text()
 			button.pressed.connect(_on_option_selected.bind(i))
 			options_container.add_child(button)
 
 func _can_select_option(option: ChallengeOption) -> bool:
-	# Check if player meets requirements
-	# For now, always return true
-	return true
+	# Get knight state from GameState or create mock state for now
+	var knight_state = _get_knight_state()
+	return option.can_select(knight_state)
 
 func _on_option_selected(option_index: int) -> void:
 	var challenge = challenges[current_challenge_index]
 	var option = challenge.options[option_index]
 	
-	# Apply consequences
+	# Apply consequences to knight state
+	var knight_state = _get_knight_state()
+	var new_state = option.apply_consequences(knight_state)
+	_update_knight_state(new_state)
+	
+	# Create result for signal
 	var result = {
 		"challenge": challenge.title,
 		"option_chosen": option.text,
-		"consequences": option.consequences
+		"success_message": option.success_message,
+		"coins_change": option.coins_change - option.coins_required,
+		"health_change": option.health_change,
+		"reward_coins": option.reward_coins,
+		"reward_item": option.reward_item
 	}
 	
 	challenge_completed.emit(result)
@@ -167,18 +165,82 @@ func _complete_location() -> void:
 	else:
 		location_completed.emit()
 
+func _get_challenge_directory() -> String:
+	match location_type:
+		LocationType.FOREST:
+			return "res://game/resources/challenges/forest/"
+		LocationType.STEPPE:
+			return "res://game/resources/challenges/steppe/"
+		LocationType.TUNDRA:
+			return "res://game/resources/challenges/tundra/"
+		_:
+			return ""
+
+func _load_challenge_resources(dir_path: String) -> Array[Challenge]:
+	var loaded_challenges: Array[Challenge] = []
+	
+	if dir_path == "":
+		return loaded_challenges
+	
+	var dir = DirAccess.open(dir_path)
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if file_name.ends_with(".tres"):
+				var resource = load(dir_path + file_name)
+				if resource is Challenge:
+					loaded_challenges.append(resource)
+			file_name = dir.get_next()
+	
+	return loaded_challenges
+
+func _select_challenges(available: Array[Challenge], count: int, target_difficulty: int) -> Array[Challenge]:
+	var selected: Array[Challenge] = []
+	var remaining_difficulty = target_difficulty
+	
+	# Shuffle available challenges
+	available.shuffle()
+	
+	for challenge in available:
+		if selected.size() >= count:
+			break
+		if challenge.difficulty <= remaining_difficulty:
+			selected.append(challenge)
+			remaining_difficulty -= challenge.difficulty
+	
+	return selected
+
+func _create_sample_challenge() -> void:
+	# Fallback sample challenge if no resources found
+	var sample = Challenge.new()
+	sample.title = "Препятствие"
+	sample.description = "Вы столкнулись с препятствием на пути."
+	sample.difficulty = 2
+	
+	var option = ChallengeOption.new()
+	option.text = "Преодолеть препятствие"
+	option.success_message = "Вы успешно преодолели препятствие."
+	sample.options = [option]
+	
+	challenges.append(sample)
+
+func _get_knight_state() -> Dictionary:
+	# Get knight state from GameState or create mock state
+	# This will be properly integrated with the Knight system later
+	return {
+		"health": 3,
+		"coins": 5,
+		"has_horse": true,
+		"inventory": ["Меч", "Щит", "Провизия"]
+	}
+
+func _update_knight_state(new_state: Dictionary) -> void:
+	# Update knight state in GameState
+	# This will be properly integrated with the Knight system later
+	pass
+
 class LocationState extends Resource:
 	@export var completed: bool = false
 	@export var challenges_completed: int = 0
 	@export var items_found: Array[String] = []
-
-class Challenge extends Resource:
-	@export var title: String
-	@export var description: String
-	@export var difficulty: int = 1
-	@export var options: Array[ChallengeOption] = []
-
-class ChallengeOption extends Resource:
-	@export var text: String
-	@export var requirements: Dictionary = {}  # e.g., {"gold": 5, "item": "sword"}
-	@export var consequences: Dictionary = {}  # e.g., {"gold": -5, "health": -1}

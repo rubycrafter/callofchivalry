@@ -1,0 +1,62 @@
+[gd_resource type="Resource" script_class="Challenge" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://game/scripts/challenges/challenge.gd" id="1"]
+[ext_resource type="Script" path="res://game/scripts/challenges/challenge_option.gd" id="2"]
+
+[sub_resource type="Resource" id="1"]
+script = ExtResource("2")
+text = "Использовать факел для тепла"
+action_type = 0
+success_message = "Факел помог вам согреться и найти укрытие от метели."
+failure_message = ""
+coins_required = 0
+health_required = 0
+item_required = "Факел"
+horse_required = false
+coins_change = 0
+health_change = 0
+item_consumed = "Факел"
+horse_lost = false
+reward_coins = 0
+reward_item = ""
+
+[sub_resource type="Resource" id="2"]
+script = ExtResource("2")
+text = "Укрыться под конём"
+action_type = 3
+success_message = "Вы укрылись от ветра рядом с конём и переждали самую сильную метель."
+failure_message = ""
+coins_required = 0
+health_required = 0
+item_required = ""
+horse_required = true
+coins_change = 0
+health_change = -1
+item_consumed = ""
+horse_lost = false
+reward_coins = 0
+reward_item = ""
+
+[sub_resource type="Resource" id="3"]
+script = ExtResource("2")
+text = "Идти сквозь метель"
+action_type = 4
+success_message = "Вы пробились сквозь метель, но сильно обморозились."
+failure_message = ""
+coins_required = 0
+health_required = 0
+item_required = ""
+horse_required = false
+coins_change = 0
+health_change = -2
+item_consumed = ""
+horse_lost = false
+reward_coins = 0
+reward_item = ""
+
+[resource]
+script = ExtResource("1")
+title = "Снежная метель"
+description = "Внезапно началась сильная метель. Видимость упала до нескольких метров, а холодный ветер пробирает до костей."
+difficulty = 4
+options = [SubResource("1"), SubResource("2"), SubResource("3")]

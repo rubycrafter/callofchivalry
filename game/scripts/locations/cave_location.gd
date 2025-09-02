@@ -25,27 +25,27 @@ func _create_darkness() -> Challenge:
 	challenge.description = "В пещере абсолютная темнота. Вы не видите даже собственных рук."
 	challenge.difficulty = 2
 	
-	var action1 = Challenge.ChallengeAction.new()
+	var action1 = ChallengeOption.new()
 	action1.text = "Зажечь факел"
 	action1.type = Challenge.ActionType.USE_ITEM
 	action1.item_required = "Факел"
 	action1.success_message = "Факел осветил путь вперёд."
 	challenge.actions.append(action1)
 	
-	var action2 = Challenge.ChallengeAction.new()
+	var action2 = ChallengeOption.new()
 	action2.text = "Идти на ощупь по стене"
 	action2.type = Challenge.ActionType.CUSTOM
 	action2.success_message = "Вы медленно продвигаетесь во тьме."
 	challenge.actions.append(action2)
 	
-	var action3 = Challenge.ChallengeAction.new()
+	var action3 = ChallengeOption.new()
 	action3.text = "Идти наугад"
 	action3.type = Challenge.ActionType.TAKE_DAMAGE
 	action3.damage_taken = 1
 	action3.success_message = "Вы несколько раз упали, но нашли выход."
 	challenge.actions.append(action3)
 	
-	var action4 = Challenge.ChallengeAction.new()
+	var action4 = ChallengeOption.new()
 	action4.text = "Следовать за звуками воды"
 	action4.type = Challenge.ActionType.CUSTOM
 	action4.success_message = "Звук воды вывел вас к подземной реке."
@@ -59,14 +59,14 @@ func _create_cave_troll() -> Challenge:
 	challenge.description = "Огромный тролль блокирует единственный проход. Он требует плату."
 	challenge.difficulty = 4
 	
-	var action1 = Challenge.ChallengeAction.new()
+	var action1 = ChallengeOption.new()
 	action1.text = "Заплатить золотом (7 монет)"
 	action1.type = Challenge.ActionType.SPEND_COINS
 	action1.coins_required = 7
 	action1.success_message = "Тролль взял золото и пропустил вас."
 	challenge.actions.append(action1)
 	
-	var action2 = Challenge.ChallengeAction.new()
+	var action2 = ChallengeOption.new()
 	action2.text = "Сражаться мечом"
 	action2.type = Challenge.ActionType.USE_ITEM
 	action2.item_required = "Меч"
@@ -74,14 +74,14 @@ func _create_cave_troll() -> Challenge:
 	action2.reward_coins = 5
 	challenge.actions.append(action2)
 	
-	var action3 = Challenge.ChallengeAction.new()
+	var action3 = ChallengeOption.new()
 	action3.text = "Отвлечь едой"
 	action3.type = Challenge.ActionType.USE_ITEM
 	action3.item_required = "Мясо"
 	action3.success_message = "Тролль отвлёкся на еду, вы проскользнули."
 	challenge.actions.append(action3)
 	
-	var action4 = Challenge.ChallengeAction.new()
+	var action4 = ChallengeOption.new()
 	action4.text = "Драться кулаками"
 	action4.type = Challenge.ActionType.TAKE_DAMAGE
 	action4.damage_taken = 2
@@ -96,27 +96,27 @@ func _create_underground_river() -> Challenge:
 	challenge.description = "Быстрая подземная река преграждает путь. Вода ледяная."
 	challenge.difficulty = 3
 	
-	var action1 = Challenge.ChallengeAction.new()
+	var action1 = ChallengeOption.new()
 	action1.text = "Построить плот из щита"
 	action1.type = Challenge.ActionType.USE_ITEM
 	action1.item_required = "Щит"
 	action1.success_message = "Щит послужил плотом для переправы."
 	challenge.actions.append(action1)
 	
-	var action2 = Challenge.ChallengeAction.new()
+	var action2 = ChallengeOption.new()
 	action2.text = "Перейти вброд с веревкой"
 	action2.type = Challenge.ActionType.USE_ITEM
 	action2.item_required = "Веревка"
 	action2.success_message = "Веревка помогла не снести течением."
 	challenge.actions.append(action2)
 	
-	var action3 = Challenge.ChallengeAction.new()
+	var action3 = ChallengeOption.new()
 	action3.text = "Переплыть на коне"
 	action3.type = Challenge.ActionType.CUSTOM
 	action3.success_message = "Конь переплыл реку с вами на спине."
 	challenge.actions.append(action3)
 	
-	var action4 = Challenge.ChallengeAction.new()
+	var action4 = ChallengeOption.new()
 	action4.text = "Переплыть самому"
 	action4.type = Challenge.ActionType.TAKE_DAMAGE
 	action4.damage_taken = 1
@@ -131,7 +131,7 @@ func _create_ancient_tomb() -> Challenge:
 	challenge.description = "Вы нашли древнее захоронение. Саркофаг выглядит нетронутым."
 	challenge.difficulty = 2
 	
-	var action1 = Challenge.ChallengeAction.new()
+	var action1 = ChallengeOption.new()
 	action1.text = "Открыть с помощью топора"
 	action1.type = Challenge.ActionType.USE_ITEM
 	action1.item_required = "Топор"
@@ -139,7 +139,7 @@ func _create_ancient_tomb() -> Challenge:
 	action1.reward_coins = 8
 	challenge.actions.append(action1)
 	
-	var action2 = Challenge.ChallengeAction.new()
+	var action2 = ChallengeOption.new()
 	action2.text = "Исследовать с факелом"
 	action2.type = Challenge.ActionType.USE_ITEM
 	action2.item_required = "Факел"
@@ -147,13 +147,13 @@ func _create_ancient_tomb() -> Challenge:
 	action2.reward_item = "Древний артефакт"
 	challenge.actions.append(action2)
 	
-	var action3 = Challenge.ChallengeAction.new()
+	var action3 = ChallengeOption.new()
 	action3.text = "Помолиться и уйти"
 	action3.type = Challenge.ActionType.CUSTOM
 	action3.success_message = "Вы почтили память усопших."
 	challenge.actions.append(action3)
 	
-	var action4 = Challenge.ChallengeAction.new()
+	var action4 = ChallengeOption.new()
 	action4.text = "Разграбить гробницу"
 	action4.type = Challenge.ActionType.TAKE_DAMAGE
 	action4.damage_taken = 1
@@ -169,7 +169,7 @@ func _create_crystal_cavern() -> Challenge:
 	challenge.description = "Пещера полна светящихся кристаллов. Они излучают странную энергию."
 	challenge.difficulty = 2
 	
-	var action1 = Challenge.ChallengeAction.new()
+	var action1 = ChallengeOption.new()
 	action1.text = "Собрать кристаллы топором"
 	action1.type = Challenge.ActionType.USE_ITEM
 	action1.item_required = "Топор"
@@ -177,13 +177,13 @@ func _create_crystal_cavern() -> Challenge:
 	action1.reward_item = "Магический кристалл"
 	challenge.actions.append(action1)
 	
-	var action2 = Challenge.ChallengeAction.new()
+	var action2 = ChallengeOption.new()
 	action2.text = "Медитировать среди кристаллов"
 	action2.type = Challenge.ActionType.CUSTOM
 	action2.success_message = "Кристаллы восстановили ваши силы."
 	challenge.actions.append(action2)
 	
-	var action3 = Challenge.ChallengeAction.new()
+	var action3 = ChallengeOption.new()
 	action3.text = "Играть музыку кристаллам"
 	action3.type = Challenge.ActionType.USE_ITEM
 	action3.item_required = "Лютня"
@@ -191,7 +191,7 @@ func _create_crystal_cavern() -> Challenge:
 	action3.reward_coins = 4
 	challenge.actions.append(action3)
 	
-	var action4 = Challenge.ChallengeAction.new()
+	var action4 = ChallengeOption.new()
 	action4.text = "Разбить кристаллы"
 	action4.type = Challenge.ActionType.TAKE_DAMAGE
 	action4.damage_taken = 1
