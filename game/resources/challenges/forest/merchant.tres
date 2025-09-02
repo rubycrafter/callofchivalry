@@ -1,0 +1,62 @@
+[gd_resource type="Resource" script_class="Challenge" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://game/scripts/challenges/challenge.gd" id="1"]
+[ext_resource type="Script" path="res://game/scripts/challenges/challenge_option.gd" id="2"]
+
+[sub_resource type="Resource" id="1"]
+script = ExtResource("2")
+text = "Купить провизию"
+action_type = 1
+success_message = "Вы купили у торговца провизию, которая восстановит ваше здоровье в случае необходимости."
+failure_message = ""
+coins_required = 3
+health_required = 0
+item_required = ""
+horse_required = false
+coins_change = -3
+health_change = 0
+item_consumed = ""
+horse_lost = false
+reward_coins = 0
+reward_item = "Провизия"
+
+[sub_resource type="Resource" id="2"]
+script = ExtResource("2")
+text = "Купить факел"
+action_type = 1
+success_message = "Вы купили факел, который поможет осветить путь в тёмных местах."
+failure_message = ""
+coins_required = 2
+health_required = 0
+item_required = ""
+horse_required = false
+coins_change = -2
+health_change = 0
+item_consumed = ""
+horse_lost = false
+reward_coins = 0
+reward_item = "Факел"
+
+[sub_resource type="Resource" id="3"]
+script = ExtResource("2")
+text = "Продолжить путь"
+action_type = 7
+success_message = "Вы поблагодарили торговца и продолжили свой путь."
+failure_message = ""
+coins_required = 0
+health_required = 0
+item_required = ""
+horse_required = false
+coins_change = 0
+health_change = 0
+item_consumed = ""
+horse_lost = false
+reward_coins = 0
+reward_item = ""
+
+[resource]
+script = ExtResource("1")
+title = "Странствующий торговец"
+description = "На лесной поляне вы встретили торговца с повозкой. Он предлагает вам различные товары, которые могут пригодиться в пути."
+difficulty = 1
+options = [SubResource("1"), SubResource("2"), SubResource("3")]

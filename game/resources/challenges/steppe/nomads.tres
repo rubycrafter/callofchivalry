@@ -1,0 +1,62 @@
+[gd_resource type="Resource" script_class="Challenge" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://game/scripts/challenges/challenge.gd" id="1"]
+[ext_resource type="Script" path="res://game/scripts/challenges/challenge_option.gd" id="2"]
+
+[sub_resource type="Resource" id="1"]
+script = ExtResource("2")
+text = "Обменять провизию на воду"
+action_type = 0
+success_message = "Кочевники с радостью обменяли воду на вашу провизию и указали безопасный путь через степь."
+failure_message = ""
+coins_required = 0
+health_required = 0
+item_required = "Провизия"
+horse_required = false
+coins_change = 0
+health_change = 0
+item_consumed = "Провизия"
+horse_lost = false
+reward_coins = 0
+reward_item = ""
+
+[sub_resource type="Resource" id="2"]
+script = ExtResource("2")
+text = "Купить воду за золото"
+action_type = 1
+success_message = "Вы купили воду у кочевников и можете продолжить путь через степь."
+failure_message = ""
+coins_required = 3
+health_required = 0
+item_required = ""
+horse_required = false
+coins_change = -3
+health_change = 0
+item_consumed = ""
+horse_lost = false
+reward_coins = 0
+reward_item = ""
+
+[sub_resource type="Resource" id="3"]
+script = ExtResource("2")
+text = "Попытаться пройти без воды"
+action_type = 4
+success_message = "Вы решили идти без воды. Жажда и жара степи измотали вас."
+failure_message = ""
+coins_required = 0
+health_required = 0
+item_required = ""
+horse_required = false
+coins_change = 0
+health_change = -2
+item_consumed = ""
+horse_lost = false
+reward_coins = 0
+reward_item = ""
+
+[resource]
+script = ExtResource("1")
+title = "Встреча с кочевниками"
+description = "В степи вы встретили группу кочевников. Они предупреждают, что впереди долгий путь без источников воды, и предлагают обменяться."
+difficulty = 3
+options = [SubResource("1"), SubResource("2"), SubResource("3")]

@@ -25,28 +25,28 @@ func _create_polar_bear() -> Challenge:
 	challenge.description = "Огромный белый медведь преградил вам путь. Он голоден и агрессивен."
 	challenge.difficulty = 4
 	
-	var action1 = Challenge.ChallengeAction.new()
+	var action1 = ChallengeOption.new()
 	action1.text = "Бросить мясо и убежать"
 	action1.type = Challenge.ActionType.USE_ITEM
 	action1.item_required = "Мясо"
 	action1.success_message = "Медведь отвлёкся на мясо, и вы смогли обойти его."
 	challenge.actions.append(action1)
 	
-	var action2 = Challenge.ChallengeAction.new()
+	var action2 = ChallengeOption.new()
 	action2.text = "Отпугнуть факелом"
 	action2.type = Challenge.ActionType.USE_ITEM
 	action2.item_required = "Факел"
 	action2.success_message = "Медведь испугался огня и ушёл."
 	challenge.actions.append(action2)
 	
-	var action3 = Challenge.ChallengeAction.new()
+	var action3 = ChallengeOption.new()
 	action3.text = "Быстро ускакать"
 	action3.type = Challenge.ActionType.ESCAPE_ON_HORSE
 	action3.requires_horse = true
 	action3.success_message = "Вы умчались от медведя на коне!"
 	challenge.actions.append(action3)
 	
-	var action4 = Challenge.ChallengeAction.new()
+	var action4 = ChallengeOption.new()
 	action4.text = "Сражаться"
 	action4.type = Challenge.ActionType.TAKE_DAMAGE
 	action4.damage_taken = 2
@@ -62,28 +62,28 @@ func _create_blizzard() -> Challenge:
 	challenge.description = "Внезапная метель застала вас врасплох. Видимость нулевая, холод пробирает до костей."
 	challenge.difficulty = 3
 	
-	var action1 = Challenge.ChallengeAction.new()
+	var action1 = ChallengeOption.new()
 	action1.text = "Построить убежище из щита"
 	action1.type = Challenge.ActionType.USE_ITEM
 	action1.item_required = "Щит"
 	action1.success_message = "Щит защитил вас от ветра, и вы переждали бурю."
 	challenge.actions.append(action1)
 	
-	var action2 = Challenge.ChallengeAction.new()
+	var action2 = ChallengeOption.new()
 	action2.text = "Согреться вином"
 	action2.type = Challenge.ActionType.USE_ITEM
 	action2.item_required = "Вино"
 	action2.success_message = "Вино согрело вас, и вы смогли продолжить путь."
 	challenge.actions.append(action2)
 	
-	var action3 = Challenge.ChallengeAction.new()
+	var action3 = ChallengeOption.new()
 	action3.text = "Идти вслепую"
 	action3.type = Challenge.ActionType.TAKE_DAMAGE
 	action3.damage_taken = 1
 	action3.success_message = "Вы обморозились, но выбрались из бури."
 	challenge.actions.append(action3)
 	
-	var action4 = Challenge.ChallengeAction.new()
+	var action4 = ChallengeOption.new()
 	action4.text = "Зарыться в снег и ждать"
 	action4.type = Challenge.ActionType.CUSTOM
 	action4.success_message = "Снег защитил вас от ветра, буря прошла."
@@ -97,7 +97,7 @@ func _create_ice_fishing() -> Challenge:
 	challenge.description = "Вы нашли прорубь с удочкой. Можно попытаться поймать рыбу."
 	challenge.difficulty = 1
 	
-	var action1 = Challenge.ChallengeAction.new()
+	var action1 = ChallengeOption.new()
 	action1.text = "Использовать хлеб как наживку"
 	action1.type = Challenge.ActionType.USE_ITEM
 	action1.item_required = "Хлеб"
@@ -105,14 +105,14 @@ func _create_ice_fishing() -> Challenge:
 	action1.reward_item = "Рыба"
 	challenge.actions.append(action1)
 	
-	var action2 = Challenge.ChallengeAction.new()
+	var action2 = ChallengeOption.new()
 	action2.text = "Попробовать без наживки"
 	action2.type = Challenge.ActionType.CUSTOM
 	action2.success_message = "Удивительно, но вам повезло поймать рыбу!"
 	action2.reward_item = "Рыба"
 	challenge.actions.append(action2)
 	
-	var action3 = Challenge.ChallengeAction.new()
+	var action3 = ChallengeOption.new()
 	action3.text = "Не тратить время"
 	action3.type = Challenge.ActionType.CUSTOM
 	action3.success_message = "Вы решили не задерживаться."
@@ -126,7 +126,7 @@ func _create_frozen_traveler() -> Challenge:
 	challenge.description = "В снегу лежит замерзающий человек. Он еле дышит."
 	challenge.difficulty = 2
 	
-	var action1 = Challenge.ChallengeAction.new()
+	var action1 = ChallengeOption.new()
 	action1.text = "Дать эликсир здоровья"
 	action1.type = Challenge.ActionType.USE_ITEM
 	action1.item_required = "Эликсир здоровья"
@@ -134,7 +134,7 @@ func _create_frozen_traveler() -> Challenge:
 	action1.reward_item = "Амулет"
 	challenge.actions.append(action1)
 	
-	var action2 = Challenge.ChallengeAction.new()
+	var action2 = ChallengeOption.new()
 	action2.text = "Согреть вином"
 	action2.type = Challenge.ActionType.USE_ITEM
 	action2.item_required = "Вино"
@@ -142,14 +142,14 @@ func _create_frozen_traveler() -> Challenge:
 	action2.reward_coins = 4
 	challenge.actions.append(action2)
 	
-	var action3 = Challenge.ChallengeAction.new()
+	var action3 = ChallengeOption.new()
 	action3.text = "Обыскать карманы"
 	action3.type = Challenge.ActionType.CUSTOM
 	action3.success_message = "Вы нашли немного монет... Не очень благородно."
 	action3.reward_coins = 2
 	challenge.actions.append(action3)
 	
-	var action4 = Challenge.ChallengeAction.new()
+	var action4 = ChallengeOption.new()
 	action4.text = "Пройти мимо"
 	action4.type = Challenge.ActionType.CUSTOM
 	action4.success_message = "Вы оставили его судьбе... Жестоко."
@@ -163,7 +163,7 @@ func _create_northern_lights() -> Challenge:
 	challenge.description = "Небо озарилось волшебным северным сиянием. Говорят, это знак судьбы."
 	challenge.difficulty = 1
 	
-	var action1 = Challenge.ChallengeAction.new()
+	var action1 = ChallengeOption.new()
 	action1.text = "Сыграть мелодию на лютне"
 	action1.type = Challenge.ActionType.USE_ITEM
 	action1.item_required = "Лютня"
@@ -171,13 +171,13 @@ func _create_northern_lights() -> Challenge:
 	action1.reward_coins = 3
 	challenge.actions.append(action1)
 	
-	var action2 = Challenge.ChallengeAction.new()
+	var action2 = ChallengeOption.new()
 	action2.text = "Помолиться"
 	action2.type = Challenge.ActionType.CUSTOM
 	action2.success_message = "Вы почувствовали прилив сил от молитвы."
 	challenge.actions.append(action2)
 	
-	var action3 = Challenge.ChallengeAction.new()
+	var action3 = ChallengeOption.new()
 	action3.text = "Загадать желание"
 	action3.type = Challenge.ActionType.SPEND_COINS
 	action3.coins_required = 1

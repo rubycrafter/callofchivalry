@@ -25,7 +25,7 @@ func _create_dragon_guards() -> Challenge:
 	challenge.description = "Два меньших дракона охраняют вход в главное логово."
 	challenge.difficulty = 4
 	
-	var action1 = Challenge.ChallengeAction.new()
+	var action1 = ChallengeOption.new()
 	action1.text = "Сражаться мечом"
 	action1.type = Challenge.ActionType.USE_ITEM
 	action1.item_required = "Меч"
@@ -33,21 +33,21 @@ func _create_dragon_guards() -> Challenge:
 	action1.reward_coins = 5
 	challenge.actions.append(action1)
 	
-	var action2 = Challenge.ChallengeAction.new()
+	var action2 = ChallengeOption.new()
 	action2.text = "Усыпить музыкой"
 	action2.type = Challenge.ActionType.USE_ITEM
 	action2.item_required = "Лютня"
 	action2.success_message = "Драконы заснули под вашу колыбельную."
 	challenge.actions.append(action2)
 	
-	var action3 = Challenge.ChallengeAction.new()
+	var action3 = ChallengeOption.new()
 	action3.text = "Отвлечь золотом"
 	action3.type = Challenge.ActionType.SPEND_COINS
 	action3.coins_required = 5
 	action3.success_message = "Стражи отвлеклись на золото."
 	challenge.actions.append(action3)
 	
-	var action4 = Challenge.ChallengeAction.new()
+	var action4 = ChallengeOption.new()
 	action4.text = "Прорваться силой"
 	action4.type = Challenge.ActionType.TAKE_DAMAGE
 	action4.damage_taken = 2
@@ -62,14 +62,14 @@ func _create_treasure_room() -> Challenge:
 	challenge.description = "Горы золота и артефактов. Но взять что-то - значит разбудить дракона."
 	challenge.difficulty = 2
 	
-	var action1 = Challenge.ChallengeAction.new()
+	var action1 = ChallengeOption.new()
 	action1.text = "Взять только необходимое"
 	action1.type = Challenge.ActionType.CUSTOM
 	action1.success_message = "Вы взяли зелье для битвы."
 	action1.reward_item = "Эликсир силы дракона"
 	challenge.actions.append(action1)
 	
-	var action2 = Challenge.ChallengeAction.new()
+	var action2 = ChallengeOption.new()
 	action2.text = "Набить карманы золотом"
 	action2.type = Challenge.ActionType.TAKE_DAMAGE
 	action2.damage_taken = 1
@@ -77,13 +77,13 @@ func _create_treasure_room() -> Challenge:
 	action2.reward_coins = 10
 	challenge.actions.append(action2)
 	
-	var action3 = Challenge.ChallengeAction.new()
+	var action3 = ChallengeOption.new()
 	action3.text = "Не брать ничего"
 	action3.type = Challenge.ActionType.CUSTOM
 	action3.success_message = "Вы прошли мимо сокровищ."
 	challenge.actions.append(action3)
 	
-	var action4 = Challenge.ChallengeAction.new()
+	var action4 = ChallengeOption.new()
 	action4.text = "Искать магическое оружие"
 	action4.type = Challenge.ActionType.USE_ITEM
 	action4.item_required = "Карта"
@@ -99,28 +99,28 @@ func _create_dragon_riddle() -> Challenge:
 	challenge.description = "Дракон предлагает разгадать загадку вместо битвы."
 	challenge.difficulty = 3
 	
-	var action1 = Challenge.ChallengeAction.new()
+	var action1 = ChallengeOption.new()
 	action1.text = "Ответить с помощью книги мудрости"
 	action1.type = Challenge.ActionType.USE_ITEM
 	action1.item_required = "Книга"
 	action1.success_message = "Дракон впечатлён вашей мудростью!"
 	challenge.actions.append(action1)
 	
-	var action2 = Challenge.ChallengeAction.new()
+	var action2 = ChallengeOption.new()
 	action2.text = "Попросить подсказку за золото"
 	action2.type = Challenge.ActionType.SPEND_COINS
 	action2.coins_required = 3
 	action2.success_message = "Дракон дал подсказку, вы разгадали!"
 	challenge.actions.append(action2)
 	
-	var action3 = Challenge.ChallengeAction.new()
+	var action3 = ChallengeOption.new()
 	action3.text = "Отказаться и сражаться"
 	action3.type = Challenge.ActionType.TAKE_DAMAGE
 	action3.damage_taken = 2
 	action3.success_message = "Дракон разозлился и атаковал!"
 	challenge.actions.append(action3)
 	
-	var action4 = Challenge.ChallengeAction.new()
+	var action4 = ChallengeOption.new()
 	action4.text = "Ответить загадкой на загадку"
 	action4.type = Challenge.ActionType.CUSTOM
 	action4.success_message = "Дракон оценил вашу находчивость!"
@@ -134,7 +134,7 @@ func _create_princess_rescue() -> Challenge:
 	challenge.description = "Принцесса заперта в клетке над лавой. Дракон предлагает выбор."
 	challenge.difficulty = 3
 	
-	var action1 = Challenge.ChallengeAction.new()
+	var action1 = ChallengeOption.new()
 	action1.text = "Разрубить клетку мечом"
 	action1.type = Challenge.ActionType.USE_ITEM
 	action1.item_required = "Меч"
@@ -142,7 +142,7 @@ func _create_princess_rescue() -> Challenge:
 	action1.reward_item = "Благословение принцессы"
 	challenge.actions.append(action1)
 	
-	var action2 = Challenge.ChallengeAction.new()
+	var action2 = ChallengeOption.new()
 	action2.text = "Обменять на все сокровища"
 	action2.type = Challenge.ActionType.SPEND_COINS
 	action2.coins_required = 10
@@ -150,7 +150,7 @@ func _create_princess_rescue() -> Challenge:
 	action2.reward_item = "Благословение принцессы"
 	challenge.actions.append(action2)
 	
-	var action3 = Challenge.ChallengeAction.new()
+	var action3 = ChallengeOption.new()
 	action3.text = "Использовать веревку для спасения"
 	action3.type = Challenge.ActionType.USE_ITEM
 	action3.item_required = "Веревка"
@@ -158,7 +158,7 @@ func _create_princess_rescue() -> Challenge:
 	action3.reward_item = "Благословение принцессы"
 	challenge.actions.append(action3)
 	
-	var action4 = Challenge.ChallengeAction.new()
+	var action4 = ChallengeOption.new()
 	action4.text = "Сначала убить дракона"
 	action4.type = Challenge.ActionType.CUSTOM
 	action4.success_message = "Вы решили сначала разобраться с драконом."
@@ -172,7 +172,7 @@ func _create_final_battle() -> Challenge:
 	challenge.description = "Финальная битва! Дракон в ярости и готов испепелить вас!"
 	challenge.difficulty = 5
 	
-	var action1 = Challenge.ChallengeAction.new()
+	var action1 = ChallengeOption.new()
 	action1.text = "Атаковать драконобойным мечом"
 	action1.type = Challenge.ActionType.USE_ITEM
 	action1.item_required = "Драконобойный меч"
@@ -180,7 +180,7 @@ func _create_final_battle() -> Challenge:
 	action1.reward_coins = 100
 	challenge.actions.append(action1)
 	
-	var action2 = Challenge.ChallengeAction.new()
+	var action2 = ChallengeOption.new()
 	action2.text = "Использовать перо феникса"
 	action2.type = Challenge.ActionType.USE_ITEM
 	action2.item_required = "Перо феникса"
@@ -188,7 +188,7 @@ func _create_final_battle() -> Challenge:
 	action2.reward_coins = 50
 	challenge.actions.append(action2)
 	
-	var action3 = Challenge.ChallengeAction.new()
+	var action3 = ChallengeOption.new()
 	action3.text = "Сражаться обычным оружием"
 	action3.type = Challenge.ActionType.USE_ITEM
 	action3.item_required = "Меч"
@@ -196,7 +196,7 @@ func _create_final_battle() -> Challenge:
 	action3.reward_coins = 30
 	challenge.actions.append(action3)
 	
-	var action4 = Challenge.ChallengeAction.new()
+	var action4 = ChallengeOption.new()
 	action4.text = "Сражаться голыми руками"
 	action4.type = Challenge.ActionType.TAKE_DAMAGE
 	action4.damage_taken = 3
@@ -204,7 +204,7 @@ func _create_final_battle() -> Challenge:
 	action4.reward_coins = 200
 	challenge.actions.append(action4)
 	
-	var action5 = Challenge.ChallengeAction.new()
+	var action5 = ChallengeOption.new()
 	action5.text = "Договориться с драконом"
 	action5.type = Challenge.ActionType.USE_ITEM
 	action5.item_required = "Лютня"

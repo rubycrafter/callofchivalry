@@ -1,7 +1,7 @@
 class_name Location
 extends Resource
 
-const Challenge = preload("res://game/scripts/locations/challenge.gd")
+const Challenge = preload("res://game/scripts/challenges/challenge.gd")
 
 @export var name: String = ""
 @export var description: String = ""
