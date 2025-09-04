@@ -4,7 +4,8 @@ const GameManager = preload("res://game/scripts/game_manager/game_manager.gd")
 const Challenge = preload("res://game/scripts/locations/challenge.gd")
 const Location = preload("res://game/scripts/locations/location.gd")
 
-@onready var main_menu = $MainMenu
+# Main menu is now handled by Maaack's template
+# @onready var main_menu = $MainMenu
 @onready var location_selection_screen = $LocationSelectionScreen
 @onready var challenge_screen = $ChallengeScreen
 @onready var game_over_screen = $GameOverScreen
@@ -12,25 +13,25 @@ const Location = preload("res://game/scripts/locations/location.gd")
 var game_manager: GameManager
 
 func _ready() -> void:
-	# TEMPORARY: Disabled GameManager to debug hanging issue
-	# game_manager = GameManager.new()
-	# add_child(game_manager)
-	
 	# Connect UI signals
 	_connect_ui_signals()
 	
-	# Connect game manager signals
-	# _connect_game_signals()
+	# Don't show main menu by default - wait for game manager
+	_hide_all_screens()
+
+func set_game_manager(manager: GameManager) -> void:
+	game_manager = manager
+	_connect_game_signals()
 	
-	# Show main menu
-	_show_main_menu()
+	# Hide main menu when game manager is set
+	_hide_all_screens()
+	
+	# Start location selection
+	if game_manager:
+		_show_location_selection(true)
 
 func _connect_ui_signals() -> void:
-	# Main menu signals
-	if main_menu:
-		main_menu.new_game_pressed.connect(_on_new_game)
-		main_menu.continue_game_pressed.connect(_on_continue_game)
-		main_menu.quit_pressed.connect(_on_quit_game)
+	# Main menu is now handled by Maaack's template
 	
 	# Location selection signals
 	if location_selection_screen:
@@ -57,13 +58,11 @@ func _connect_game_signals() -> void:
 	# game_manager.location_completed.connect(_on_location_completed)
 
 func _show_main_menu() -> void:
+	# Main menu is now handled by Maaack's template
 	_hide_all_screens()
-	if main_menu:
-		main_menu.show_menu()
 
 func _hide_all_screens() -> void:
-	if main_menu:
-		main_menu.hide_menu()
+	# Main menu is now handled by Maaack's template
 	if location_selection_screen:
 		location_selection_screen.hide_screen()
 	if challenge_screen:
@@ -71,23 +70,7 @@ func _hide_all_screens() -> void:
 	if game_over_screen:
 		game_over_screen.hide_screen()
 
-# Main menu handlers
-func _on_new_game() -> void:
-	if game_manager:
-		game_manager.start_new_game()
-	else:
-		# Demo mode without game manager
-		_show_location_selection(false)
-
-func _on_continue_game() -> void:
-	if game_manager and game_manager.load_from_file():
-		# For now, just show main menu after load
-		_show_main_menu()
-	else:
-		print("Failed to load save file")
-
-func _on_quit_game() -> void:
-	get_tree().quit()
+# These handlers are now handled by the main menu from Maaack's template
 
 # Game event handlers
 func _on_game_started() -> void:
@@ -162,16 +145,15 @@ func _show_game_over(victory: bool) -> void:
 		game_over_screen.setup_game_over(victory, stats)
 
 func _on_return_to_menu() -> void:
+	# Return to main menu - let the template handle it
 	if game_manager:
 		game_manager.reset_game()
-	_show_main_menu()
+	SceneLoader.load_scene("res://game/scenes/menus/main_menu/main_menu_with_animations.tscn")
 
 func _on_restart_game() -> void:
 	if game_manager:
 		game_manager.reset_game()
 		game_manager.start_new_game()
-	else:
-		_on_new_game()
 
 func _update_challenge_screen_status() -> void:
 	if not challenge_screen:

@@ -41,7 +41,9 @@
       "Bash(gh pr list:*)",
       "Bash(rm:*)",
       "Bash(touch:*)",
-      "Bash(\"D:\\Program Files (x86)\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.64.exe\" --headless --path \"C:\\Users\\Anton\\dev\\godot\\call-of-chivalry\" game/scenes/test/test_runner.tscn)"
+      "Bash(\"D:\\Program Files (x86)\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.64.exe\" --headless --path \"C:\\Users\\Anton\\dev\\godot\\call-of-chivalry\" game/scenes/test/test_runner.tscn)",
+      "Bash(\"D:\\Program Files (x86)\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.64.exe\" --headless --path \"C:\\Users\\Anton\\dev\\godot\\call-of-chivalry\" game/scenes/test/test_runner.tscn)",
+      "Bash(timeout:*)"
     ],
     "deny": [],
     "ask": []

@@ -63,7 +63,7 @@ func get_current_location() -> Location:
 	return null
 
 func get_available_next_locations() -> Array[Location]:
-	var available = []
+	var available: Array[Location] = []
 	
 	if current_row == MapRow.FINAL:
 		return available
@@ -138,9 +138,10 @@ func can_start_journey() -> bool:
 
 func get_initial_location_choices() -> Array[Location]:
 	if not can_start_journey():
-		return []
+		var empty_array: Array[Location] = []
+		return empty_array
 	
-	var choices = []
+	var choices: Array[Location] = []
 	var row_locations = map_structure.get(MapRow.ROW_1, {})
 	
 	for pos in row_locations:

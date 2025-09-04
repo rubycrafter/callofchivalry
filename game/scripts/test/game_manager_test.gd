@@ -30,7 +30,7 @@ func test_initial_state() -> void:
 	print("--- Initial State Test ---")
 	var game_manager = GameManager.new()
 	
-	assert_equals(game_manager.current_state, GameManager.GameState.MENU, "Should start in MENU state")
+	assert_equals(game_manager.current_state, GameManager.State.MENU, "Should start in MENU state")
 	assert_equals(game_manager.knight != null, true, "Should have knight instance")
 	assert_equals(game_manager.inventory != null, true, "Should have inventory instance")
 	assert_equals(game_manager.current_location, null, "Should have no current location")
@@ -45,7 +45,7 @@ func test_start_new_game() -> void:
 	
 	game_manager.start_new_game()
 	
-	assert_equals(game_manager.current_state, GameManager.GameState.PREPARING, "Should be in PREPARING state")
+	assert_equals(game_manager.current_state, GameManager.State.PREPARING, "Should be in PREPARING state")
 	assert_equals(signal_emitted, true, "Should emit game_started signal")
 
 func test_reset_game() -> void:
@@ -53,12 +53,12 @@ func test_reset_game() -> void:
 	var game_manager = GameManager.new()
 	
 	game_manager.start_new_game()
-	game_manager.current_state = GameManager.GameState.IN_LOCATION
+	game_manager.current_state = GameManager.State.IN_LOCATION
 	game_manager.current_challenge_index = 5
 	
 	game_manager.reset_game()
 	
-	assert_equals(game_manager.current_state, GameManager.GameState.MENU, "Should reset to MENU state")
+	assert_equals(game_manager.current_state, GameManager.State.MENU, "Should reset to MENU state")
 	assert_equals(game_manager.current_challenge_index, 0, "Should reset challenge index")
 	assert_equals(game_manager.current_location, null, "Should clear current location")
 	assert_equals(game_manager.knight.health, game_manager.knight.max_health, "Should reset knight health")
@@ -77,7 +77,7 @@ func test_enter_location() -> void:
 	
 	game_manager.enter_location(forest)
 	
-	assert_equals(game_manager.current_state, GameManager.GameState.IN_LOCATION, "Should be in IN_LOCATION state")
+	assert_equals(game_manager.current_state, GameManager.State.IN_LOCATION, "Should be in IN_LOCATION state")
 	assert_equals(game_manager.current_location, forest, "Should set current location")
 	assert_equals(signal_emitted, true, "Should emit location_entered signal")
 	assert_equals(emitted_location, forest, "Should emit correct location")

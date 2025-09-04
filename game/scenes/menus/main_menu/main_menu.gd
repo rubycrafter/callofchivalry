@@ -27,7 +27,9 @@ func _add_level_select_if_set() -> void:
 	%LevelSelectButton.show()
 
 func _show_continue_if_set() -> void:
-	if GameState.has_game_state():
+	# Check if save file exists
+	var save_file_path = "user://savegame.dat"
+	if FileAccess.file_exists(save_file_path):
 		%ContinueGameButton.show()
 
 func _ready() -> void:
@@ -36,6 +38,7 @@ func _ready() -> void:
 	_show_continue_if_set()
 
 func _on_continue_game_button_pressed() -> void:
+	# Set a flag to indicate we should load the save
 	GameState.continue_game()
 	load_game_scene()
 

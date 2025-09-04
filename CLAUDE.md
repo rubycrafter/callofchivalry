@@ -76,6 +76,36 @@ gh run view <run-id> --log
 gh api repos/rubycrafter/callofchivalry/actions/runs/<run-id>/artifacts
 ```
 
+### Debugging Methods
+
+#### Using Godot MCP for Live Debugging
+The godot-mcp tools provide powerful debugging capabilities:
+
+1. **Launch with debug output**:
+```bash
+mcp__godot-mcp__run_project  # Start game
+mcp__godot-mcp__get_debug_output  # Get live errors
+mcp__godot-mcp__stop_project  # Stop when needed
+```
+
+2. **Common error patterns fixed**:
+- `clear_inventory()` → `clear()` - Check actual method names
+- `GameState.MENU` → `State.MENU` - Avoid enum name conflicts
+- `knight.health` → `knight.current_health` - Use correct property names
+- `Array` → `Array[Type]` - Proper type hints for Godot 4
+- `has("property")` → `"property" in object` - Correct property checking
+
+3. **Debug workflow**:
+- Add print statements in _ready() to track initialization
+- Use mcp__godot-mcp__get_debug_output after each action
+- Look for "Debugger Break" messages - they show exact error location
+- Fix errors incrementally, test after each fix
+
+4. **Testing approach**:
+- Start with unit tests (`test_runner.tscn`) 
+- Move to integration testing (manual game flow)
+- Create automated test scripts for regression testing
+
 ### Automated Testing
 
 #### Test Framework

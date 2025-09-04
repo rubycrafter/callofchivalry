@@ -80,6 +80,9 @@ func can_afford(cost: int) -> bool:
 func is_alive() -> bool:
 	return current_health > 0
 
+func is_dead() -> bool:
+	return current_health <= 0
+
 func reset() -> void:
 	current_health = max_health
 	coins = starting_coins

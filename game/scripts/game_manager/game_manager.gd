@@ -1,7 +1,7 @@
 class_name GameManager
 extends Node
 
-enum GameState { MENU, PREPARING, IN_LOCATION, CHOOSING_PATH, GAME_OVER }
+enum State { MENU, PREPARING, IN_LOCATION, CHOOSING_PATH, GAME_OVER }
 
 signal game_started()
 signal game_over(victory: bool)
@@ -16,7 +16,7 @@ const Inventory = preload("res://game/scripts/inventory/inventory.gd")
 const Challenge = preload("res://game/scripts/locations/challenge.gd")
 const Location = preload("res://game/scripts/locations/location.gd")
 
-@export var current_state: int = GameState.MENU
+@export var current_state: int = State.MENU
 @export var save_file_path: String = "user://savegame.dat"
 
 var knight: Knight
@@ -44,20 +44,20 @@ func _connect_signals() -> void:
 
 func start_new_game() -> void:
 	reset_game()
-	current_state = GameState.PREPARING
+	current_state = State.PREPARING
 	game_started.emit()
 
 func reset_game() -> void:
 	knight.reset()
 	game_map.reset()
-	inventory.clear_inventory()
+	inventory.clear()
 	current_location = null
 	current_challenge = null
 	current_challenge_index = 0
-	current_state = GameState.MENU
+	current_state = State.MENU
 
 func select_starting_location(location_index: int) -> void:
-	if current_state != GameState.PREPARING:
+	if current_state != State.PREPARING:
 		return
 	
 	var choices = game_map.get_initial_location_choices()
@@ -70,7 +70,7 @@ func enter_location(location: Location) -> void:
 	current_location = location
 	current_location.enter_location()
 	current_challenge_index = 0
-	current_state = GameState.IN_LOCATION
+	current_state = State.IN_LOCATION
 	location_entered.emit(location)
 	
 	if current_location.selected_challenges.size() > 0:
@@ -198,14 +198,14 @@ func complete_location() -> void:
 	if current_location:
 		location_completed.emit(current_location)
 	
-	current_state = GameState.CHOOSING_PATH
+	current_state = State.CHOOSING_PATH
 	show_path_choices()
 
 func show_path_choices() -> Array[Location]:
 	return game_map.get_available_next_locations()
 
 func choose_next_location(location_index: int) -> void:
-	if current_state != GameState.CHOOSING_PATH:
+	if current_state != State.CHOOSING_PATH:
 		return
 	
 	var choices = game_map.get_available_next_locations()
@@ -215,15 +215,15 @@ func choose_next_location(location_index: int) -> void:
 			enter_location(selected_location)
 
 func end_game(victory: bool) -> void:
-	current_state = GameState.GAME_OVER
+	current_state = State.GAME_OVER
 	game_over.emit(victory)
 
 func _on_knight_health_changed(new_health: int, max_health: int) -> void:
-	if new_health <= 0 and current_state != GameState.GAME_OVER:
+	if new_health <= 0 and current_state != State.GAME_OVER:
 		end_game(false)
 
 func _on_knight_died() -> void:
-	if current_state != GameState.GAME_OVER:
+	if current_state != State.GAME_OVER:
 		end_game(false)
 
 func _on_knight_coins_changed(new_coins: int) -> void:
@@ -262,7 +262,7 @@ func load_game(save_data: Dictionary) -> bool:
 	
 	reset_game()
 	
-	current_state = save_data.get("state", GameState.MENU)
+	current_state = save_data.get("state", State.MENU)
 	knight.load_save_data(save_data.get("knight", {}))
 	inventory.load_save_data(save_data.get("inventory", {}))
 	
@@ -315,5 +315,5 @@ func get_game_stats() -> Dictionary:
 		"locations_visited": game_map.visited_locations.size(),
 		"locations_completed": game_map.completed_locations.size(),
 		"progress": game_map.get_progress_percentage(),
-		"current_state": GameState.keys()[current_state]
+		"current_state": State.keys()[current_state]
 	}
