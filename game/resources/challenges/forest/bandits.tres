@@ -1,0 +1,62 @@
+[gd_resource type="Resource" script_class="Challenge" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://game/scripts/challenges/challenge.gd" id="1"]
+[ext_resource type="Script" path="res://game/scripts/challenges/challenge_option.gd" id="2"]
+
+[sub_resource type="Resource" id="1"]
+script = ExtResource("2")
+text = "Откупиться золотом"
+action_type = 1
+success_message = "Вы отдали бандитам золото, и они пропустили вас."
+failure_message = ""
+coins_required = 5
+health_required = 0
+item_required = ""
+horse_required = false
+coins_change = -5
+health_change = 0
+item_consumed = ""
+horse_lost = false
+reward_coins = 0
+reward_item = ""
+
+[sub_resource type="Resource" id="2"]
+script = ExtResource("2")
+text = "Сражаться голыми руками"
+action_type = 4
+success_message = "Вы ввязались в драку и с трудом отбились от бандитов, но получили ранения."
+failure_message = ""
+coins_required = 0
+health_required = 0
+item_required = ""
+horse_required = false
+coins_change = 0
+health_change = -1
+item_consumed = ""
+horse_lost = false
+reward_coins = 2
+reward_item = ""
+
+[sub_resource type="Resource" id="3"]
+script = ExtResource("2")
+text = "Использовать меч"
+action_type = 0
+success_message = "Вы достали меч и разогнали бандитов! В спешке они обронили кошель с золотом."
+failure_message = ""
+coins_required = 0
+health_required = 0
+item_required = "Меч"
+horse_required = false
+coins_change = 0
+health_change = 0
+item_consumed = "Меч"
+horse_lost = false
+reward_coins = 5
+reward_item = ""
+
+[resource]
+script = ExtResource("1")
+title = "Встреча с бандитами"
+description = "На лесной тропе вас окружили трое вооружённых бандитов. Они требуют отдать все ценности или готовы применить силу."
+difficulty = 3
+options = [SubResource("1"), SubResource("2"), SubResource("3")]

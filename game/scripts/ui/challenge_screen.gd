@@ -1,5 +1,7 @@
 extends Control
 
+const Challenge = preload("res://game/scripts/challenges/challenge.gd")
+
 signal action_selected(index: int)
 
 @onready var location_label: Label = $VBoxContainer/LocationLabel

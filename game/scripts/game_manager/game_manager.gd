@@ -5,16 +5,18 @@ enum State { MENU, PREPARING, IN_LOCATION, CHOOSING_PATH, GAME_OVER }
 
 signal game_started()
 signal game_over(victory: bool)
-signal location_entered(location: Location)
-signal challenge_started(challenge: Challenge)
-signal challenge_completed(challenge: Challenge, action: Challenge.ChallengeAction)
-signal location_completed(location: Location)
+signal location_entered(location)
+signal challenge_started(challenge)
+signal challenge_completed(challenge, action)
+signal location_completed(location)
 
 const Knight = preload("res://game/scripts/knight/knight.gd")
 const GameMap = preload("res://game/scripts/game_map/game_map.gd")
 const Inventory = preload("res://game/scripts/inventory/inventory.gd")
-const Challenge = preload("res://game/scripts/locations/challenge.gd")
-const Location = preload("res://game/scripts/locations/location.gd")
+const Challenge = preload("res://game/scripts/challenges/challenge.gd")
+const ChallengeOption = preload("res://game/scripts/challenges/challenge_option.gd")
+# Location is in scenes, not scripts
+# const Location = preload("res://game/scripts/locations/location.gd")
 
 @export var current_state: int = State.MENU
 @export var save_file_path: String = "user://savegame.dat"
@@ -22,7 +24,7 @@ const Location = preload("res://game/scripts/locations/location.gd")
 var knight: Knight
 var game_map: GameMap
 var inventory: Inventory
-var current_location: Location
+var current_location # Location type removed - will be Node
 var current_challenge: Challenge
 var current_challenge_index: int = 0
 
@@ -66,7 +68,7 @@ func select_starting_location(location_index: int) -> void:
 		game_map.start_journey_from(selected_location)
 		enter_location(selected_location)
 
-func enter_location(location: Location) -> void:
+func enter_location(location) -> void:
 	current_location = location
 	current_location.enter_location()
 	current_challenge_index = 0
@@ -109,49 +111,53 @@ func execute_challenge_action(action_index: int) -> bool:
 	
 	return success
 
-func _apply_action_effects(action: Challenge.ChallengeAction) -> bool:
-	match action.type:
-		Challenge.ActionType.USE_ITEM:
-			if action.item_required:
-				var item = inventory.find_item_by_name(action.item_required)
-				if item:
-					inventory.remove_item(item)
+func _apply_action_effects(action) -> bool:
+	# TODO: Update to use new ChallengeOption structure
+	# For now, just apply rewards
+	if action and action.has("action_type"):
+		match action.action_type:
+			Challenge.ActionType.USE_ITEM:
+				if action.get("item_required"):
+					var item = inventory.find_item_by_name(action.item_required)
+					if item:
+						inventory.remove_item(item)
+						_apply_rewards(action)
+						return true
+				return false
+			
+			Challenge.ActionType.SPEND_COINS:
+				if knight.can_afford(action.get("coins_required", 0)):
+					knight.spend_coins(action.get("coins_required", 0))
 					_apply_rewards(action)
 					return true
-			return false
-		
-		Challenge.ActionType.SPEND_COINS:
-			if knight.can_afford(action.coins_required):
-				knight.spend_coins(action.coins_required)
+				return false
+			
+			Challenge.ActionType.TAKE_DAMAGE:
+				knight.take_damage(action.get("damage_taken", 1))
 				_apply_rewards(action)
 				return true
-			return false
-		
-		Challenge.ActionType.TAKE_DAMAGE:
-			knight.take_damage(action.damage_taken)
-			_apply_rewards(action)
-			return true
-		
-		Challenge.ActionType.ESCAPE_ON_HORSE:
-			if knight.has_horse:
-				if action.loses_horse:
-					knight.lose_horse()
+			
+			Challenge.ActionType.ESCAPE_ON_HORSE:
+				if knight.has_horse:
+					if action.get("loses_horse", false):
+						knight.lose_horse()
+					_apply_rewards(action)
+					return true
+				return false
+			
+			_:
 				_apply_rewards(action)
 				return true
-			return false
-		
-		Challenge.ActionType.CUSTOM:
-			_apply_rewards(action)
-			return true
-		
-		_:
-			return false
+	else:
+		# Action is ChallengeOption or unknown - just return true
+		_apply_rewards(action)
+		return true
 
-func _apply_rewards(action: Challenge.ChallengeAction) -> void:
-	if action.reward_coins > 0:
+func _apply_rewards(action) -> void:
+	if action.has("reward_coins") and action.reward_coins > 0:
 		knight.add_coins(action.reward_coins)
 	
-	if action.reward_item:
+	if action.has("reward_item") and action.reward_item:
 		var reward_item = _create_item_from_name(action.reward_item)
 		if reward_item:
 			var free_slot = inventory.find_free_slot(reward_item.size)
@@ -229,7 +235,7 @@ func _on_knight_died() -> void:
 func _on_knight_coins_changed(new_coins: int) -> void:
 	pass
 
-func _on_location_selected(location: Location) -> void:
+func _on_location_selected(location) -> void:
 	pass
 
 func _on_journey_completed() -> void:

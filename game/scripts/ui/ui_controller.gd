@@ -1,8 +1,9 @@
 extends Control
 
 const GameManager = preload("res://game/scripts/game_manager/game_manager.gd")
-const Challenge = preload("res://game/scripts/locations/challenge.gd")
-const Location = preload("res://game/scripts/locations/location.gd")
+const Challenge = preload("res://game/scripts/challenges/challenge.gd")
+# Location script is in scenes, not scripts
+# const Location = preload("res://game/scripts/locations/location.gd")
 
 # Main menu is now handled by Maaack's template
 # @onready var main_menu = $MainMenu
@@ -93,7 +94,7 @@ func _on_challenge_started(challenge: Challenge) -> void:
 		challenge_screen.setup_challenge(challenge, available_actions, location_name)
 		_update_challenge_screen_status()
 
-func _on_challenge_completed(challenge: Challenge, action: Challenge.ChallengeAction) -> void:
+func _on_challenge_completed(challenge, action) -> void:
 	if challenge_screen:
 		challenge_screen.show_action_result(action)
 		_update_challenge_screen_status()
@@ -101,7 +102,7 @@ func _on_challenge_completed(challenge: Challenge, action: Challenge.ChallengeAc
 	# Save game after each completed challenge
 	game_manager.save_to_file()
 
-func _on_location_completed(location: Location) -> void:
+func _on_location_completed(location) -> void:
 	# Show path selection
 	_show_location_selection(false)
 
