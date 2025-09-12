@@ -1,6 +1,7 @@
 extends Control
 
 signal action_selected(index: int)
+signal inventory_button_pressed
 
 @onready var location_label: Label = $VBoxContainer/LocationLabel
 @onready var challenge_title: Label = $VBoxContainer/ChallengeTitle
@@ -9,8 +10,16 @@ signal action_selected(index: int)
 @onready var health_label: Label = $VBoxContainer/StatusBar/HealthLabel
 @onready var coins_label: Label = $VBoxContainer/StatusBar/CoinsLabel
 @onready var horse_label: Label = $VBoxContainer/StatusBar/HorseLabel
+@onready var inventory_button: Button = $VBoxContainer/StatusBar/InventoryButton
 
 var action_buttons: Array[Button] = []
+
+func _ready() -> void:
+	if inventory_button:
+		inventory_button.pressed.connect(_on_inventory_button_pressed)
+
+func _on_inventory_button_pressed() -> void:
+	inventory_button_pressed.emit()
 
 func setup_challenge(challenge, actions: Array, location_name: String = "") -> void:
 	if location_label:

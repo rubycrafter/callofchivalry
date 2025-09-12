@@ -69,6 +69,13 @@ text = "Золото: 5"
 layout_mode = 2
 text = "Конь: Да"
 
+[node name="VSeparator" type="VSeparator" parent="UILayer/ChallengeScreen/VBoxContainer/StatusBar"]
+layout_mode = 2
+
+[node name="InventoryButton" type="Button" parent="UILayer/ChallengeScreen/VBoxContainer/StatusBar"]
+layout_mode = 2
+text = "Инвентарь (I)"
+
 [node name="LocationLabel" type="Label" parent="UILayer/ChallengeScreen/VBoxContainer"]
 layout_mode = 2
 text = "Локация"

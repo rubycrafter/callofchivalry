@@ -79,6 +79,8 @@ func _connect_ui_signals() -> void:
 	# Challenge screen signals
 	if challenge_screen:
 		challenge_screen.action_selected.connect(_on_challenge_action_selected)
+		if challenge_screen.has_signal("inventory_button_pressed"):
+			challenge_screen.inventory_button_pressed.connect(_on_inventory_button_pressed)
 	
 	# Game over screen signals
 	if game_over_screen:
@@ -138,6 +140,12 @@ func _on_location_completed(location) -> void:
 func _on_challenge_action_selected(action_index: int) -> void:
 	if game_manager:
 		game_manager.execute_challenge_action(action_index)
+
+func _on_inventory_button_pressed() -> void:
+	if inventory_ui:
+		inventory_ui.visible = not inventory_ui.visible
+		if inventory_ui.visible and game_manager:
+			inventory_ui.set_inventory(game_manager.inventory)
 
 # Location selection handlers
 func _on_location_selected(location_index: int) -> void:
