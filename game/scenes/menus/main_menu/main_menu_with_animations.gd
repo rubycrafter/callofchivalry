@@ -15,8 +15,8 @@ func new_game() -> void:
 		%NewGameConfirmationDialog.popup_centered()
 	else:
 		GameState.reset()
-		# Start with location selection or first location
-		get_tree().change_scene_to_file("res://game/scenes/game_scene/locations/forest.tscn")
+		# Start the main game scene
+		SceneLoader.load_scene("res://game/scenes/game_scene/levels/call_of_chivalry_game.tscn")
 
 func intro_done() -> void:
 	animation_state_machine.travel("OpenMainMenu")
@@ -63,57 +63,17 @@ func _ready() -> void:
 	_add_level_select_if_set()
 	_show_continue_if_set()
 	animation_state_machine = $MenuAnimationTree.get("parameters/playback")
-	# Add debug buttons after a short delay to ensure everything is initialized
-	call_deferred("_add_debug_buttons")
 
-func _add_debug_buttons() -> void:
-	var button_container = get_node_or_null("MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer")
-	if not button_container:
-		return
-	
-	# Check if button already exists
-	if button_container.has_node("DemoUIButton"):
-		return
-	
-	# Add Demo UI button before Exit button
-	var demo_ui_btn = Button.new()
-	demo_ui_btn.name = "DemoUIButton"
-	demo_ui_btn.text = "Demo UI"
-	demo_ui_btn.pressed.connect(_on_demo_ui_button_pressed)
-	
-	# Find Exit button index
-	var exit_btn = button_container.get_node_or_null("ExitButton")
-	if exit_btn:
-		var exit_index = exit_btn.get_index()
-		button_container.add_child(demo_ui_btn)
-		button_container.move_child(demo_ui_btn, exit_index)
-	else:
-		button_container.add_child(demo_ui_btn)
 
 func _on_continue_game_button_pressed() -> void:
 	GameState.continue_game()
-	load_game_scene()
+	SceneLoader.load_scene("res://game/scenes/game_scene/levels/call_of_chivalry_game.tscn")
 
 func _on_level_select_button_pressed() -> void:
 	_open_sub_menu(level_select_scene)
 
 func _on_new_game_confirmation_dialog_confirmed():
 	GameState.reset()
-	load_game_scene()
+	SceneLoader.load_scene("res://game/scenes/game_scene/levels/call_of_chivalry_game.tscn")
 
-func _on_test_inventory_button_pressed() -> void:
-	var inventory_scene = preload("res://game/scenes/test/inventory_test.tscn")
-	get_tree().change_scene_to_packed(inventory_scene)
 
-func _on_show_inventory_button_pressed() -> void:
-	var inventory_ui = preload("res://game/scenes/inventory/inventory_ui.tscn").instantiate()
-	get_tree().root.add_child(inventory_ui)
-
-func _on_demo_ui_button_pressed() -> void:
-	# Instead of changing scene, add UI as overlay
-	var ui_scene = load("res://game/scenes/main.tscn")
-	if ui_scene:
-		var ui_instance = ui_scene.instantiate()
-		get_tree().root.add_child(ui_instance)
-		# Hide current menu
-		self.visible = false

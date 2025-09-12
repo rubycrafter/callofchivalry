@@ -47,7 +47,8 @@
       "Bash(for file in game/scripts/locations/*_location.gd)",
       "Bash(do sed -i 's/Challenge\\.ChallengeAction/ChallengeOption/g' \"$file\")",
       "Bash(done)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(\"D:\\Program Files (x86)\\Steam\\steamapps\\common\\Godot Engine\\godot.windows.opt.tools.64.exe\" --headless --path \"C:\\Users\\Anton\\dev\\godot\\call-of-chivalry\" game/scenes/test/test_runner.tscn)"
     ],
     "deny": [],
     "ask": []

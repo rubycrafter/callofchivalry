@@ -1,13 +1,12 @@
 extends Node
 
 func _ready():
-	print("=== Verifying All 10 Core Items ===\n")
+	print("=== Verifying All 9 Core Items ===\n")
 	
 	var items = {
 		"Sword": "res://game/resources/items/sword.tres",
 		"Shield": "res://game/resources/items/shield.tres",
 		"Bow & Arrows": "res://game/resources/items/bow_arrows.tres",
-		"Horse": "res://game/resources/items/horse.tres",
 		"Rope": "res://game/resources/items/rope.tres",
 		"Torch": "res://game/resources/items/torch.tres",
 		"Food Rations": "res://game/resources/items/food.tres",
@@ -42,7 +41,7 @@ func _ready():
 			all_valid = false
 	
 	print("\n=== Summary ===")
-	print("Total items: %d / 10" % item_list.size())
+	print("Total items: %d / 9" % item_list.size())
 	print("Total weight: %.1f kg" % total_weight)
 	print("Max inventory weight: 50.0 kg")
 	
